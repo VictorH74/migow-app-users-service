@@ -1,5 +1,7 @@
 package com.service.users.migow.migow_users_service.application.usecases.users;
 
+import org.springframework.stereotype.Component;
+
 import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.account_preference_settings.CreateAccountPreferenceSettingsUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.notification_settings.CreateNotificationsSettingsUseCase;
@@ -10,6 +12,7 @@ import com.service.users.migow.migow_users_service.domain.entities.NotificationS
 import com.service.users.migow.migow_users_service.domain.entities.PrivacySettings;
 import com.service.users.migow.migow_users_service.domain.entities.User;
 
+@Component
 public class CreateUser implements CreateUserUseCase {
     private final UserRepository userRepository;
     private final CreateAccountPreferenceSettingsUseCase cAPSettingsUseCase;

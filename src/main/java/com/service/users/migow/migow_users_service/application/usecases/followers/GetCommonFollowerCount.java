@@ -3,12 +3,15 @@ package com.service.users.migow.migow_users_service.application.usecases.followe
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.GetCommonFollowerCountUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.GetFullFollowersByFollowingIdUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.GetIsFollowerStatusUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByIdUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.Follower;
 
+@Component
 public class GetCommonFollowerCount implements GetCommonFollowerCountUseCase {
 
     private final GetUserByIdUseCase getUserByIdUseCase;

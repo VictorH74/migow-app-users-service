@@ -2,6 +2,8 @@ package com.service.users.migow.migow_users_service.application.usecases.followe
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import com.service.users.migow.migow_users_service.application.interfaces.repositories.FollowerRepository;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.CreateFollowerUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByIdUseCase;
@@ -9,6 +11,7 @@ import com.service.users.migow.migow_users_service.domain.entities.Follower;
 import com.service.users.migow.migow_users_service.domain.entities.User;
 import com.service.users.migow.migow_users_service.domain.entities.pks.FollowerPK;
 
+@Component
 public class CreateFollower implements CreateFollowerUseCase {
 
     private final FollowerRepository followerRepository;

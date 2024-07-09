@@ -1,11 +1,14 @@
 package com.service.users.migow.migow_users_service.application.usecases.privacy_settings;
 
+import org.springframework.stereotype.Component;
+
 import com.service.users.migow.migow_users_service.application.interfaces.repositories.PrivacySettingsRepository;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.privacy_settings.GetPrivacySettingsByOwnerUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.PrivacySettings;
 import com.service.users.migow.migow_users_service.domain.entities.User;
 import com.service.users.migow.migow_users_service.infra.http.handlers.PrivacySettingsNotFoundException;
 
+@Component
 public class GetPrivacySettingsByOwner implements GetPrivacySettingsByOwnerUseCase {
 
     private final PrivacySettingsRepository privacySettingsRepository;

@@ -2,11 +2,13 @@ package com.service.users.migow.migow_users_service.application.usecases.users;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
 import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetAllUserByUsernamePrefixUseCase;
 import com.service.users.migow.migow_users_service.infra.http.dtos.SimpleUserDTO;
 
+@Component
 public class GetAllUserByUsernamePrefix implements GetAllUserByUsernamePrefixUseCase {
     private final UserRepository userRepository;
 

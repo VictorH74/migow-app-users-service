@@ -2,10 +2,13 @@ package com.service.users.migow.migow_users_service.application.usecases.followe
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import com.service.users.migow.migow_users_service.application.interfaces.repositories.FollowerRepository;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.GetIsFollowerStatusUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByIdUseCase;
 
+@Component
 public class GetIsFollowerStatus implements GetIsFollowerStatusUseCase {
 
     private final FollowerRepository followerRepository;

@@ -2,10 +2,13 @@ package com.service.users.migow.migow_users_service.application.usecases.followe
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.service.users.migow.migow_users_service.application.interfaces.repositories.FollowerRepository;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.CreateManyFollowerUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.Follower;
 
+@Component
 public class CreateManyFollower implements CreateManyFollowerUseCase {
     private final FollowerRepository followerRepository;
 
