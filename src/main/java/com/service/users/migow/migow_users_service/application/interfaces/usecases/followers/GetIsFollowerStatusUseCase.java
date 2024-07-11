@@ -3,5 +3,5 @@ package com.service.users.migow.migow_users_service.application.interfaces.useca
 import java.util.UUID;
 
 public interface GetIsFollowerStatusUseCase {
-    boolean execute(UUID followerId, UUID followingId);
+    boolean execute(UUID followerId, UUID followedId);
 }

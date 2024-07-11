@@ -1,5 +1,7 @@
 package com.service.users.migow.migow_users_service.application.usecases.users;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
@@ -29,6 +31,8 @@ public class CreateUser implements CreateUserUseCase {
 
     @Override
     public User execute(User obj) {
+        if (obj.getId().toString().isEmpty())
+            obj.setId(UUID.randomUUID());
         User user = userRepository.createUpdateUser(obj);
 
         AccountPreferenceSettings accountPreferenceSettings = new AccountPreferenceSettings();

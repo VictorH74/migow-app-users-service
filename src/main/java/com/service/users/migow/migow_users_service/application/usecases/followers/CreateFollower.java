@@ -23,12 +23,12 @@ public class CreateFollower implements CreateFollowerUseCase {
     }
 
     @Override
-    public Follower execute(UUID followerId, UUID followingId) {
+    public Follower execute(UUID followerId, UUID followedId) {
         FollowerPK followerPK = new FollowerPK();
         User followerUser = getUserByIdUseCase.execute(followerId).toUser();
-        User followingUser = getUserByIdUseCase.execute(followingId).toUser();
+        User followedUser = getUserByIdUseCase.execute(followedId).toUser();
         followerPK.setFollowerUser(followerUser);
-        followerPK.setFollowingUser(followingUser);
+        followerPK.setFollowedUser(followedUser);
         Follower f = new Follower();
         f.setId(followerPK);
         return followerRepository.createFollower(f);

@@ -23,6 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> createManyUser(List<User> objs) {
         return jpaUserRepository.saveAll(objs);
+        // return jpaUserRepository.saveAllAndFlush(objs);
     }
 
     @Override

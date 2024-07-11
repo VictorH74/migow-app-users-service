@@ -36,13 +36,13 @@ public class FollowerRepositoryImpl implements FollowerRepository {
     }
 
     @Override
-    public Page<Follower> getAllFollowersByFollowingId(UUID followingId, String usernamePrefix, Pageable pageable) {
-        return jpaFollowerRepository.findFollowersByFollowingId(followingId, usernamePrefix, pageable);
+    public Page<Follower> getAllFollowersByFollowedId(UUID followedId, String usernamePrefix, Pageable pageable) {
+        return jpaFollowerRepository.findFollowersByFollowedId(followedId, usernamePrefix, pageable);
     }
 
     @Override
-    public boolean getIsFollowerStatus(UUID followerId, UUID followingId) {
-        return jpaFollowerRepository.isFollower(followerId, followingId);
+    public boolean getIsFollowerStatus(UUID followerId, UUID followedId) {
+        return jpaFollowerRepository.isFollower(followerId, followedId);
     }
 
 }

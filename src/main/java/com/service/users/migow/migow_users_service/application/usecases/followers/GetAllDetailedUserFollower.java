@@ -25,11 +25,11 @@ public class GetAllDetailedUserFollower implements GetAllDetailedUserFollowerUse
     }
 
     @Override
-    public Page<FollowerUserDTO> execute(String usernamePrefix, UUID followingId, Pageable pageable) {
+    public Page<FollowerUserDTO> execute(String usernamePrefix, UUID followedId, Pageable pageable) {
         Page<SimpleUserDTO> users = getAllUserByUsernamePrefixUseCase.execute(usernamePrefix, pageable);
 
         return users.map(simpleUserDTO -> {
-            boolean isFollower = getIsFollowerStatusUseCase.execute(simpleUserDTO.getId(), followingId);
+            boolean isFollower = getIsFollowerStatusUseCase.execute(simpleUserDTO.getId(), followedId);
             return new FollowerUserDTO(simpleUserDTO.toUser(), isFollower);
         });
 

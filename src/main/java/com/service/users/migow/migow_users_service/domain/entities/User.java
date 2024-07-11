@@ -11,7 +11,6 @@ import org.hibernate.validator.constraints.URL;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -21,7 +20,8 @@ import jakarta.validation.constraints.Email;
 @Table(name = "db_user")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(generator = "UUID")
+    // @GeneratedValue(generator = "UUID")
+    // @GeneratedValue(strategy = GenerationType.AUTO, generator = "UUID")
     private UUID id;
     @Column(nullable = false, unique = true, length = 25)
     private String username;
@@ -37,7 +37,7 @@ public class User implements Serializable {
     @URL
     private String bgImageUrl;
     private Instant createdAt;
-    @OneToMany(mappedBy = "id.followingUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.followedUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Follower> followers;
 
     public User() {
@@ -58,10 +58,8 @@ public class User implements Serializable {
         this.followers = followers;
     }
 
-    public User(UUID id, String username, String password, String name, @Email String email,
-            @URL String profileImageUrl,
+    public User(String username, String password, String name, @Email String email, @URL String profileImageUrl,
             @URL String bgImageUrl) {
-        this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
@@ -70,8 +68,10 @@ public class User implements Serializable {
         this.bgImageUrl = bgImageUrl;
     }
 
-    public User(String username, String password, String name, @Email String email, @URL String profileImageUrl,
+    public User(UUID id, String username, String password, String name, @Email String email,
+            @URL String profileImageUrl,
             @URL String bgImageUrl) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;

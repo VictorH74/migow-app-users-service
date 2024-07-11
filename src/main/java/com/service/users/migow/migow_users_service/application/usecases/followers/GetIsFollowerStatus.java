@@ -20,10 +20,10 @@ public class GetIsFollowerStatus implements GetIsFollowerStatusUseCase {
     }
 
     @Override
-    public boolean execute(UUID followerId, UUID followingId) {
+    public boolean execute(UUID followerId, UUID followedId) {
         getUserByIdUseCase.execute(followerId);
-        getUserByIdUseCase.execute(followingId);
-        return followerRepository.getIsFollowerStatus(followerId, followingId);
+        getUserByIdUseCase.execute(followedId);
+        return followerRepository.getIsFollowerStatus(followerId, followedId);
     }
 
 }

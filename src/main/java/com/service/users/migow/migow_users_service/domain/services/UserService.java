@@ -56,9 +56,9 @@ public class UserService {
         return userRepository.findUsersByUsernamePrefix(usernamePrefix, pageable).map(user -> new SimpleUserDTO(user));
     }
 
-    // public Page<SimpleUserDTO> findFollowerUsersByFollowingId(UUID followingId,
+    // public Page<SimpleUserDTO> findFollowerUsersByFollowedId(UUID followedId,
     // Pageable pageable) {
-    // return followerService.findFollowersByFollowingId(followingId, pageable)
+    // return followerService.findFollowersByFollowedId(followedId, pageable)
     // .map(follower -> new SimpleUserDTO(follower.getId().getFollowerUser()));
     // }
 
@@ -98,11 +98,11 @@ public class UserService {
     }
 
     // TODO: remove
-    // public Page<FollowerUserDTO> findDetailedUsers(UUID followingId, Pageable pageable) {
+    // public Page<FollowerUserDTO> findDetailedUsers(UUID followedId, Pageable pageable) {
     //     Page<User> users = userRepository.findAll(pageable);
 
     //     return users.map(user -> {
-    //         boolean isFollower = followerService.isFollower(user.getId(), followingId);
+    //         boolean isFollower = followerService.isFollower(user.getId(), followedId);
     //         return new FollowerUserDTO(user, isFollower);
     //     });
     // }

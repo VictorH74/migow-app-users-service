@@ -13,27 +13,27 @@ public class FollowerPK implements Serializable {
     @ManyToOne
     private User followerUser;
     @ManyToOne
-    private User followingUser;
+    private User followedUser;
 
     public User getFollowerUser() {
         return followerUser;
     }
 
-    public User getFollowingUser() {
-        return followingUser;
+    public User getFollowedUser() {
+        return followedUser;
     }
 
     public void setFollowerUser(User followerUser) {
         this.followerUser = followerUser;
     }
 
-    public void setFollowingUser(User followingUser) {
-        this.followingUser = followingUser;
+    public void setFollowedUser(User followedUser) {
+        this.followedUser = followedUser;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(followerUser, followingUser);
+        return Objects.hash(followerUser, followedUser);
     }
 
     @Override
@@ -43,6 +43,6 @@ public class FollowerPK implements Serializable {
         if (obj == null || getClass() != obj.getClass())
             return false;
         FollowerPK other = (FollowerPK) obj;
-        return Objects.equals(followerUser, other.followerUser) && Objects.equals(followingUser, other.followingUser);
+        return Objects.equals(followerUser, other.followerUser) && Objects.equals(followedUser, other.followedUser);
     }
 }
