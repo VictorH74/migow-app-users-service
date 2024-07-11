@@ -14,9 +14,9 @@ public interface FollowerRepository {
 
     Follower createFollower(Follower obj);
 
-    Page<Follower> getAllFollowersByFollowingId(UUID followingId, String usernamePrefix, Pageable pageable);
+    Page<Follower> getAllFollowersByFollowedId(UUID followedId, String usernamePrefix, Pageable pageable);
 
-    boolean getIsFollowerStatus(UUID followerId, UUID followingId);
+    boolean getIsFollowerStatus(UUID followerId, UUID followedId);
 
     void deleteFollowerById(FollowerPK id);
 

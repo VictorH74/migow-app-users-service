@@ -36,26 +36,26 @@ public class FollowerController {
         this.gcfcUseCase = gcfcUseCase;
     }
 
-    @GetMapping("/{followingId}")
+    @GetMapping("/{followedId}")
     public Page<FollowerUserDTO> findDetailedUsers(
             @RequestParam(name = "usernamePrefix", defaultValue = "") String usernamePrefix,
-            @PathVariable UUID followingId, @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            @PathVariable UUID followedId, @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return gadufUseCase.execute(usernamePrefix, followingId, pageable);
+        return gadufUseCase.execute(usernamePrefix, followedId, pageable);
     }
 
-    // @GetMapping("/of/{followingId}")
+    // @GetMapping("/of/{followedId}")
     // public
 
-    @GetMapping("/{followingId}/followed-by/{followerId}")
-    public ResponseEntity<Object> getFollowerdStatus(@PathVariable UUID followingId, @PathVariable UUID followerId) {
-        getUserByIdUseCase.execute(followingId);
+    @GetMapping("/{followedId}/followed-by/{followerId}")
+    public ResponseEntity<Object> getFollowerdStatus(@PathVariable UUID followedId, @PathVariable UUID followerId) {
+        getUserByIdUseCase.execute(followedId);
         getUserByIdUseCase.execute(followerId);
-        if (followingId.toString().isEmpty() || followerId.toString().isEmpty())
-            return ResponseEntity.status(400).body("followingId and followerId must be not empty");
+        if (followedId.toString().isEmpty() || followerId.toString().isEmpty())
+            return ResponseEntity.status(400).body("followedId and followerId must be not empty");
 
-        boolean followed = gifsUseCase.execute(followerId, followingId);
+        boolean followed = gifsUseCase.execute(followerId, followedId);
         return ResponseEntity.status(200).body(new FollowedDTO(followed));
     }
 

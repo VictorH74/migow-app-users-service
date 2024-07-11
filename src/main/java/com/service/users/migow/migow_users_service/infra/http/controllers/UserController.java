@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.GetAllFollowersByFollowingIdUseCase;
+import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.GetAllFollowersByFollowedIdUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.CreateUserUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetAllUserByUsernamePrefixUseCase;
 import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByIdUseCase;
@@ -38,20 +38,20 @@ public class UserController {
     private final UpdateUserByIdUseCase updateUserByIdUseCase;
     private final CreateUserUseCase createUserUseCase;
 
-    private final GetAllFollowersByFollowingIdUseCase getAllFollowersByFollowingIdUseCase;
+    private final GetAllFollowersByFollowedIdUseCase getAllFollowersByFollowedIdUseCase;
 
     public UserController(GetAllUserByUsernamePrefixUseCase getAllUserByUsernamePrefixUseCase,
             GetUserByIdUseCase getUserByIdUseCase, GetUserByUsernameUseCase getUserByUsernameUseCase,
             GetUserByLoginUseCase getUserByLoginUseCase, UpdateUserByIdUseCase updateUserByIdUseCase,
             CreateUserUseCase createUserUseCase,
-            GetAllFollowersByFollowingIdUseCase getAllFollowersByFollowingIdUseCase) {
+            GetAllFollowersByFollowedIdUseCase getAllFollowersByFollowedIdUseCase) {
         this.getAllUserByUsernamePrefixUseCase = getAllUserByUsernamePrefixUseCase;
         this.getUserByIdUseCase = getUserByIdUseCase;
         this.getUserByUsernameUseCase = getUserByUsernameUseCase;
         this.getUserByLoginUseCase = getUserByLoginUseCase;
         this.updateUserByIdUseCase = updateUserByIdUseCase;
         this.createUserUseCase = createUserUseCase;
-        this.getAllFollowersByFollowingIdUseCase = getAllFollowersByFollowingIdUseCase;
+        this.getAllFollowersByFollowedIdUseCase = getAllFollowersByFollowedIdUseCase;
     }
 
     @GetMapping
@@ -95,13 +95,13 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers")
-    public Page<SimpleUserDTO> getFollowersByFollowingIdAndUsernamePrefix(
+    public Page<SimpleUserDTO> getFollowersByFollowedIdAndUsernamePrefix(
             @PathVariable UUID userId,
             @RequestParam(name = "usernamePrefix", defaultValue = "") String usernamePrefix,
             @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return getAllFollowersByFollowingIdUseCase.execute(userId, usernamePrefix, pageable);
+        return getAllFollowersByFollowedIdUseCase.execute(userId, usernamePrefix, pageable);
     }
 
     // @DeleteMapping("/users/{id}")
