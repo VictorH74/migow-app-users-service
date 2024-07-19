@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.DeleteUserByIdUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.DeleteUserByIdUseCase;
 
 @Component
 public class DeleteUserById implements DeleteUserByIdUseCase {

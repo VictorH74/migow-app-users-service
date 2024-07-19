@@ -2,9 +2,9 @@ package com.service.users.migow.migow_users_service.application.usecases.privacy
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.PrivacySettingsRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.privacy_settings.CreatePrivacySettingsUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.PrivacySettings;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.PrivacySettingsRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.privacy_settings.CreatePrivacySettingsUseCase;
 
 @Component
 public class CreatePrivacySettings implements CreatePrivacySettingsUseCase {

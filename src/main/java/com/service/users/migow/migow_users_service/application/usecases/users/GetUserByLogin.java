@@ -2,10 +2,10 @@ package com.service.users.migow.migow_users_service.application.usecases.users;
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByLoginUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.User;
-import com.service.users.migow.migow_users_service.infra.http.handlers.UserNotFounException;
+import com.service.users.migow.migow_users_service.domain.exceptions.user.UserNotFounException;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByLoginUseCase;
 
 @Component
 public class GetUserByLogin implements GetUserByLoginUseCase {

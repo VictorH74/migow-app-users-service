@@ -2,9 +2,9 @@ package com.service.users.migow.migow_users_service.application.usecases.notific
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.NotificationSettingsRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.notification_settings.CreateNotificationsSettingsUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.NotificationSettings;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.NotificationSettingsRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.notification_settings.CreateNotificationsSettingsUseCase;
 
 @Component
 public class CreateNotificationsSettings implements CreateNotificationsSettingsUseCase {

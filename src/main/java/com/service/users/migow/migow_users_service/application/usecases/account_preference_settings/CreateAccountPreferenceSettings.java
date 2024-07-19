@@ -2,9 +2,9 @@ package com.service.users.migow.migow_users_service.application.usecases.account
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.AccountPreferenceSettingsRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.account_preference_settings.CreateAccountPreferenceSettingsUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.AccountPreferenceSettings;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.AccountPreferenceSettingsRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.account_preference_settings.CreateAccountPreferenceSettingsUseCase;
 
 @Component
 public class CreateAccountPreferenceSettings implements CreateAccountPreferenceSettingsUseCase {

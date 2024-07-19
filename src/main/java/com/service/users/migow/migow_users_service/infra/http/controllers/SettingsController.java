@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.account_preference_settings.GetAccountPreferenceSettingsByOwnerUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.notification_settings.GetNotificationsSettingsByOwnerUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.privacy_settings.GetPrivacySettingsByOwnerUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByIdUseCase;
+import com.service.users.migow.migow_users_service.application.dtos.ProfileSettingsDTO;
 import com.service.users.migow.migow_users_service.domain.entities.AccountPreferenceSettings;
 import com.service.users.migow.migow_users_service.domain.entities.NotificationSettings;
 import com.service.users.migow.migow_users_service.domain.entities.PrivacySettings;
 import com.service.users.migow.migow_users_service.domain.entities.User;
-import com.service.users.migow.migow_users_service.infra.http.dtos.ProfileSettingsDTO;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.account_preference_settings.GetAccountPreferenceSettingsByOwnerUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.notification_settings.GetNotificationsSettingsByOwnerUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.privacy_settings.GetPrivacySettingsByOwnerUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
 
 @RestController
 @RequestMapping("settings/{userId}")
@@ -35,7 +35,7 @@ public class SettingsController {
         this.gnsboUseCase = gnsboUseCase;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ProfileSettingsDTO getUserProfileSettings(@RequestParam UUID userId) {
         User user = getUserByIdUseCase.execute(userId).toUser();
         AccountPreferenceSettings accountPreferenceSettings = gapsboUseCase.execute(user);

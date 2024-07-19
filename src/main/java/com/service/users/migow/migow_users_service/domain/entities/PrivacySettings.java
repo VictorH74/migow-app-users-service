@@ -20,7 +20,7 @@ public class PrivacySettings {
     private Integer imageProfileVisibility;
     private Integer nameVisibility;
     private Integer bioVisibility;
-    private Integer followersVisibility;
+    private Integer friendshipsVisibility;
     private Integer activityVisibility;
     private Integer onlineStatusVisibility;
     private Integer messageReadConfirmationVisibility;
@@ -29,14 +29,14 @@ public class PrivacySettings {
     }
 
     public PrivacySettings(Long id, User owner, Integer imageProfileVisibility, Integer nameVisibility,
-            Integer bioVisibility, Integer followersVisibility, Integer activityVisibility,
+            Integer bioVisibility, Integer friendshipsVisibility, Integer activityVisibility,
             Integer onlineStatusVisibility, Integer messageReadConfirmationVisibility) {
         this.id = id;
         this.owner = owner;
         this.imageProfileVisibility = imageProfileVisibility;
         this.nameVisibility = nameVisibility;
         this.bioVisibility = bioVisibility;
-        this.followersVisibility = followersVisibility;
+        this.friendshipsVisibility = friendshipsVisibility;
         this.activityVisibility = activityVisibility;
         this.onlineStatusVisibility = onlineStatusVisibility;
         this.messageReadConfirmationVisibility = messageReadConfirmationVisibility;
@@ -63,7 +63,7 @@ public class PrivacySettings {
     }
 
     public Integer getFollowersVisibility() {
-        return followersVisibility;
+        return friendshipsVisibility;
     }
 
     public Integer getActivityVisibility() {
@@ -98,8 +98,8 @@ public class PrivacySettings {
         this.bioVisibility = bioVisibility;
     }
 
-    public void setFollowersVisibility(Integer followersVisibility) {
-        this.followersVisibility = followersVisibility;
+    public void setFollowersVisibility(Integer friendshipsVisibility) {
+        this.friendshipsVisibility = friendshipsVisibility;
     }
 
     public void setActivityVisibility(Integer activityVisibility) {

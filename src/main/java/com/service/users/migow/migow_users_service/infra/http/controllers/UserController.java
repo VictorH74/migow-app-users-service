@@ -15,17 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.followers.GetAllFollowersByFollowedIdUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.CreateUserUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetAllUserByUsernamePrefixUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByIdUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByLoginUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByUsernameUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.UpdateUserByIdUseCase;
+import com.service.users.migow.migow_users_service.application.dtos.users.DetailedUserDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.ProfileUserDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.UpdateUserDTO;
 import com.service.users.migow.migow_users_service.domain.entities.User;
-import com.service.users.migow.migow_users_service.domain.entities.UserCredentials;
-import com.service.users.migow.migow_users_service.infra.http.dtos.SimpleUserDTO;
-import com.service.users.migow.migow_users_service.infra.http.dtos.UpdateUserDTO;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetAllUserFriendshipsUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.CreateUserUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllDetailedByUsernamePrefixUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllUserByUsernamePrefixUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByLoginUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByUsernameUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.UpdateUserByIdUseCase;
+import com.service.users.migow.migow_users_service.infra.helpers.CustomPage;
 
 @RestController
 @RequestMapping("/users")
@@ -35,27 +38,31 @@ public class UserController {
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final GetUserByUsernameUseCase getUserByUsernameUseCase;
     private final GetUserByLoginUseCase getUserByLoginUseCase;
+    private final GetAllDetailedByUsernamePrefixUseCase getAllDetailedByUsernamePrefixUseCase;
     private final UpdateUserByIdUseCase updateUserByIdUseCase;
     private final CreateUserUseCase createUserUseCase;
 
-    private final GetAllFollowersByFollowedIdUseCase getAllFollowersByFollowedIdUseCase;
+    private final GetAllUserFriendshipsUseCase getAllUserFriendByUsernameUseCase;
 
     public UserController(GetAllUserByUsernamePrefixUseCase getAllUserByUsernamePrefixUseCase,
             GetUserByIdUseCase getUserByIdUseCase, GetUserByUsernameUseCase getUserByUsernameUseCase,
             GetUserByLoginUseCase getUserByLoginUseCase, UpdateUserByIdUseCase updateUserByIdUseCase,
+            GetAllDetailedByUsernamePrefixUseCase getAllDetailedByUsernamePrefixUseCase,
             CreateUserUseCase createUserUseCase,
-            GetAllFollowersByFollowedIdUseCase getAllFollowersByFollowedIdUseCase) {
+            GetAllUserFriendshipsUseCase getAllUserFriendByUsernameUseCase) {
         this.getAllUserByUsernamePrefixUseCase = getAllUserByUsernamePrefixUseCase;
         this.getUserByIdUseCase = getUserByIdUseCase;
         this.getUserByUsernameUseCase = getUserByUsernameUseCase;
         this.getUserByLoginUseCase = getUserByLoginUseCase;
         this.updateUserByIdUseCase = updateUserByIdUseCase;
         this.createUserUseCase = createUserUseCase;
-        this.getAllFollowersByFollowedIdUseCase = getAllFollowersByFollowedIdUseCase;
+        this.getAllUserFriendByUsernameUseCase = getAllUserFriendByUsernameUseCase;
+        this.getAllDetailedByUsernamePrefixUseCase = getAllDetailedByUsernamePrefixUseCase;
     }
 
+    // Return simple users
     @GetMapping
-    public Page<SimpleUserDTO> findUsersByUsernamePrefix(
+    public CustomPage<SimpleUserDTO> findUsersByUsernamePrefix(
             @RequestParam(value = "usernamePrefix", defaultValue = "") String usernamePrefix,
             @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
@@ -65,16 +72,46 @@ public class UserController {
         return getAllUserByUsernamePrefixUseCase.execute(usernamePrefix, pageable);
     }
 
+    /*
+     * Return simple users with an additional prop that tells whether the user
+     * follows the user of the given id
+     */
+    @GetMapping("/by/{userId}")
+    public Page<DetailedUserDTO> findDetailedUsersByUsernamePrefix(
+            @PathVariable UUID userId,
+            @RequestParam(name = "usernamePrefix", defaultValue = "") String usernamePrefix,
+            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        return getAllDetailedByUsernamePrefixUseCase.execute(usernamePrefix, userId, pageable);
+    }
+
+    // return user friendships by given id
+    @GetMapping("/{userId}/friendships")
+    public Page<SimpleUserDTO> getUserFriendshipsByUsernamePrefix(
+            @PathVariable UUID userId,
+            @RequestParam(name = "usernamePrefix", defaultValue = "") String usernamePrefix,
+            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return getAllUserFriendByUsernameUseCase.execute(userId, usernamePrefix, pageable);
+    }
+
+    // Return user by given username
     @GetMapping("/username/{username}")
-    public SimpleUserDTO getUserByUsername(@PathVariable String username) {
+    public ProfileUserDTO getUserByUsername(@PathVariable String username) {
         return getUserByUsernameUseCase.execute(username);
     }
 
+    // Return user by given id
     @GetMapping("/{userId}")
     public SimpleUserDTO getUserById(@PathVariable UUID userId) {
         return getUserByIdUseCase.execute(userId);
     }
 
+    // Update user by given id
     @PatchMapping("/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable UUID userId, @RequestBody UpdateUserDTO updateUserDTO) {
         // try {
@@ -94,29 +131,9 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/{userId}/followers")
-    public Page<SimpleUserDTO> getFollowersByFollowedIdAndUsernamePrefix(
-            @PathVariable UUID userId,
-            @RequestParam(name = "usernamePrefix", defaultValue = "") String usernamePrefix,
-            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
-            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return getAllFollowersByFollowedIdUseCase.execute(userId, usernamePrefix, pageable);
-    }
-
     // @DeleteMapping("/users/{id}")
     // public String updateUser(User user) {
     // }
-
-    @PostMapping("auth")
-    public String login(@RequestBody UserCredentials credentials) {
-        User retrievedUser = getUserByLoginUseCase.execute(credentials.getLogin());
-
-        // TODO: check if credentials.password matchs with retrievedUser.password,
-        // create json web token and return
-
-        return "";
-    }
 
     // TODO: delete user (and settings) mapping
 

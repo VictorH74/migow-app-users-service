@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.NotificationSettingsRepository;
 import com.service.users.migow.migow_users_service.domain.entities.NotificationSettings;
 import com.service.users.migow.migow_users_service.domain.entities.User;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.NotificationSettingsRepository;
 import com.service.users.migow.migow_users_service.infra.db.repositories.jpa.JpaNotificationsSettingsRepository;
 
 @Repository

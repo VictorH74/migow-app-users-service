@@ -4,11 +4,11 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.UpdateUserByIdUseCase;
+import com.service.users.migow.migow_users_service.application.dtos.users.UpdateUserDTO;
 import com.service.users.migow.migow_users_service.domain.entities.User;
-import com.service.users.migow.migow_users_service.infra.http.dtos.UpdateUserDTO;
-import com.service.users.migow.migow_users_service.infra.http.handlers.UserNotFounException;
+import com.service.users.migow.migow_users_service.domain.exceptions.user.UserNotFounException;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.UpdateUserByIdUseCase;
 
 @Component
 public class UpdateUserById implements UpdateUserByIdUseCase {

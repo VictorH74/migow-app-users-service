@@ -4,11 +4,11 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.GetUserByIdUseCase;
+import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
 import com.service.users.migow.migow_users_service.domain.entities.User;
-import com.service.users.migow.migow_users_service.infra.http.dtos.SimpleUserDTO;
-import com.service.users.migow.migow_users_service.infra.http.handlers.UserNotFounException;
+import com.service.users.migow.migow_users_service.domain.exceptions.user.UserNotFounException;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
 
 @Component
 public class GetUserById implements GetUserByIdUseCase {

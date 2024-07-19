@@ -15,10 +15,10 @@ public interface JpaUserRepository extends JpaRepository<User, UUID> {
     public Optional<User> findByUsername(String username);
 
     @Query("SELECT user FROM User user WHERE user.email=:login OR user.username=:login")
-    public Optional<User> getUserByLogin(String login);
+    public Optional<User> findUserByLogin(String login);
 
     @Query("SELECT user FROM User user WHERE user.username LIKE CONCAT(:usernamePrefix, '%')")
-    public Page<User> findUsersByUsernamePrefix(String usernamePrefix, Pageable pageable);
+    public Page<User> findAllUserByUsernamePrefix(String usernamePrefix, Pageable pageable);
 
     /*
     @Query("SELECT new com.service.users.migow.migow_users_service.dto.SimpleUserDTO(user.username, user.email) FROM User user WHERE user.username LIKE :usernamePrefix%")

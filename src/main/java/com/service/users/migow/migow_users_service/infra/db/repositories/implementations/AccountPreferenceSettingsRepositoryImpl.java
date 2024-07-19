@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.AccountPreferenceSettingsRepository;
 import com.service.users.migow.migow_users_service.domain.entities.AccountPreferenceSettings;
 import com.service.users.migow.migow_users_service.domain.entities.User;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.AccountPreferenceSettingsRepository;
 import com.service.users.migow.migow_users_service.infra.db.repositories.jpa.JpaAccountPreferenceSettingsRepository;
 
 @Repository

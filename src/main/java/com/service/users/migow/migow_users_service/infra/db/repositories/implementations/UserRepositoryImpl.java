@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
 import com.service.users.migow.migow_users_service.domain.entities.User;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
 import com.service.users.migow.migow_users_service.infra.db.repositories.jpa.JpaUserRepository;
 
 @Repository
@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Page<User> getAllUserByUsernamePrefix(String usernamePrefix, Pageable pageable) {
-        return jpaUserRepository.findUsersByUsernamePrefix(usernamePrefix, pageable);
+        return jpaUserRepository.findAllUserByUsernamePrefix(usernamePrefix, pageable);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> getUserByLogin(String login) {
-        return jpaUserRepository.getUserByLogin(login);
+        return jpaUserRepository.findUserByLogin(login);
     }
 
     @Override

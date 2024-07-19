@@ -4,15 +4,15 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.UserRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.account_preference_settings.CreateAccountPreferenceSettingsUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.notification_settings.CreateNotificationsSettingsUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.privacy_settings.CreatePrivacySettingsUseCase;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.users.CreateUserUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.AccountPreferenceSettings;
 import com.service.users.migow.migow_users_service.domain.entities.NotificationSettings;
 import com.service.users.migow.migow_users_service.domain.entities.PrivacySettings;
 import com.service.users.migow.migow_users_service.domain.entities.User;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.account_preference_settings.CreateAccountPreferenceSettingsUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.notification_settings.CreateNotificationsSettingsUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.privacy_settings.CreatePrivacySettingsUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.CreateUserUseCase;
 
 @Component
 public class CreateUser implements CreateUserUseCase {

@@ -2,11 +2,11 @@ package com.service.users.migow.migow_users_service.application.usecases.account
 
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.interfaces.repositories.AccountPreferenceSettingsRepository;
-import com.service.users.migow.migow_users_service.application.interfaces.usecases.account_preference_settings.GetAccountPreferenceSettingsByOwnerUseCase;
 import com.service.users.migow.migow_users_service.domain.entities.AccountPreferenceSettings;
 import com.service.users.migow.migow_users_service.domain.entities.User;
-import com.service.users.migow.migow_users_service.infra.http.handlers.AccountPreferenceSettingsNotFoundException;
+import com.service.users.migow.migow_users_service.domain.exceptions.account_preference_settings.AccountPreferenceSettingsNotFoundException;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.AccountPreferenceSettingsRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.account_preference_settings.GetAccountPreferenceSettingsByOwnerUseCase;
 
 @Component
 public class GetAccountPreferenceSettingsByOwner implements GetAccountPreferenceSettingsByOwnerUseCase {
