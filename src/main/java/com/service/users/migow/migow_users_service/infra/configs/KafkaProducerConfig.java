@@ -1,4 +1,4 @@
-package com.service.users.migow.migow_users_service.application.configs;
+package com.service.users.migow.migow_users_service.infra.configs;
 // package com.service.users.migow.migow_users_service.configs;
 
 // import java.util.HashMap;
