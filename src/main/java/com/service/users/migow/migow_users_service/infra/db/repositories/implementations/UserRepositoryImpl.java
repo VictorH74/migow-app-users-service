@@ -12,6 +12,9 @@ import com.service.users.migow.migow_users_service.domain.entities.User;
 import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
 import com.service.users.migow.migow_users_service.infra.db.repositories.jpa.JpaUserRepository;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private final JpaUserRepository jpaUserRepository;
@@ -37,7 +40,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Page<User> getAllUserByUsernamePrefix(String usernamePrefix, Pageable pageable) {
+    public Page<User> getAllUserByUsernamePrefix(String usernamePrefix, UUID userId, Pageable pageable) {
+        if (userId != null)
+            return jpaUserRepository.findAllUserWithUserIdByUsernamePrefix(usernamePrefix, userId, pageable);
+
         return jpaUserRepository.findAllUserByUsernamePrefix(usernamePrefix, pageable);
     }
 

@@ -17,6 +17,9 @@ public interface JpaUserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT user FROM User user WHERE user.email=:login OR user.username=:login")
     public Optional<User> findUserByLogin(String login);
 
+    @Query("SELECT user FROM User user WHERE user.id != :userId AND user.username LIKE CONCAT(:usernamePrefix, '%')")
+    public Page<User> findAllUserWithUserIdByUsernamePrefix(String usernamePrefix, UUID userId, Pageable pageable);
+
     @Query("SELECT user FROM User user WHERE user.username LIKE CONCAT(:usernamePrefix, '%')")
     public Page<User> findAllUserByUsernamePrefix(String usernamePrefix, Pageable pageable);
 

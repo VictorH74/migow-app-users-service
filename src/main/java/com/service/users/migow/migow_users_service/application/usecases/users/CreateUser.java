@@ -2,6 +2,8 @@ package com.service.users.migow.migow_users_service.application.usecases.users;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.service.users.migow.migow_users_service.domain.entities.AccountPreferenceSettings;
@@ -21,6 +23,9 @@ public class CreateUser implements CreateUserUseCase {
     private final CreatePrivacySettingsUseCase cPSettingsUseCase;
     private final CreateNotificationsSettingsUseCase cNSettingsUseCase;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public CreateUser(UserRepository userRepository, CreateAccountPreferenceSettingsUseCase cAPSettingsUseCase,
             CreatePrivacySettingsUseCase cPSettingsUseCase, CreateNotificationsSettingsUseCase cNSettingsUseCase) {
         this.userRepository = userRepository;
@@ -33,6 +38,9 @@ public class CreateUser implements CreateUserUseCase {
     public User execute(User obj) {
         if (obj.getId().toString().isEmpty())
             obj.setId(UUID.randomUUID());
+
+        obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+
         User user = userRepository.createUpdateUser(obj);
 
         AccountPreferenceSettings accountPreferenceSettings = new AccountPreferenceSettings();

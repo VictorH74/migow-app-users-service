@@ -1,18 +1,12 @@
 package com.service.users.migow.migow_users_service.application.dtos.friendships;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
+@Getter
+@Setter
 public class FriendshipDTO {
     private boolean isFriend;
-
-    public FriendshipDTO(boolean isFriend) {
-        this.isFriend = isFriend;
-    }
-
-    public boolean getIsFriend() {
-        return isFriend;
-    }
-
-    public void setFollowed(boolean isFriend) {
-        this.isFriend = isFriend;
-    }
-
 }

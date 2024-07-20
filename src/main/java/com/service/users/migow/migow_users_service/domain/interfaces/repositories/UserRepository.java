@@ -14,7 +14,7 @@ public interface UserRepository {
 
     User createUpdateUser(User obj);
 
-    Page<User> getAllUserByUsernamePrefix(String usernamePrefix, Pageable pageable);
+    Page<User> getAllUserByUsernamePrefix(String usernamePrefix, UUID userId, Pageable pageable);
 
     Optional<User> getUserById(UUID id);
 

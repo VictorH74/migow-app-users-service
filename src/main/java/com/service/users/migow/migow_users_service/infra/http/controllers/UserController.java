@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.users.migow.migow_users_service.application.dtos.users.DetailedUserDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserWithIsFriendPropDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.ProfileUserDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.UpdateUserDTO;
@@ -25,40 +25,24 @@ import com.service.users.migow.migow_users_service.domain.interfaces.usecases.us
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllDetailedByUsernamePrefixUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllUserByUsernamePrefixUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
-import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByLoginUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByUsernameUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.UpdateUserByIdUseCase;
 import com.service.users.migow.migow_users_service.infra.helpers.CustomPage;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 public class UserController {
 
     private final GetAllUserByUsernamePrefixUseCase getAllUserByUsernamePrefixUseCase;
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final GetUserByUsernameUseCase getUserByUsernameUseCase;
-    private final GetUserByLoginUseCase getUserByLoginUseCase;
     private final GetAllDetailedByUsernamePrefixUseCase getAllDetailedByUsernamePrefixUseCase;
     private final UpdateUserByIdUseCase updateUserByIdUseCase;
     private final CreateUserUseCase createUserUseCase;
-
     private final GetAllUserFriendshipsUseCase getAllUserFriendByUsernameUseCase;
-
-    public UserController(GetAllUserByUsernamePrefixUseCase getAllUserByUsernamePrefixUseCase,
-            GetUserByIdUseCase getUserByIdUseCase, GetUserByUsernameUseCase getUserByUsernameUseCase,
-            GetUserByLoginUseCase getUserByLoginUseCase, UpdateUserByIdUseCase updateUserByIdUseCase,
-            GetAllDetailedByUsernamePrefixUseCase getAllDetailedByUsernamePrefixUseCase,
-            CreateUserUseCase createUserUseCase,
-            GetAllUserFriendshipsUseCase getAllUserFriendByUsernameUseCase) {
-        this.getAllUserByUsernamePrefixUseCase = getAllUserByUsernamePrefixUseCase;
-        this.getUserByIdUseCase = getUserByIdUseCase;
-        this.getUserByUsernameUseCase = getUserByUsernameUseCase;
-        this.getUserByLoginUseCase = getUserByLoginUseCase;
-        this.updateUserByIdUseCase = updateUserByIdUseCase;
-        this.createUserUseCase = createUserUseCase;
-        this.getAllUserFriendByUsernameUseCase = getAllUserFriendByUsernameUseCase;
-        this.getAllDetailedByUsernamePrefixUseCase = getAllDetailedByUsernamePrefixUseCase;
-    }
 
     // Return simple users
     @GetMapping
@@ -69,7 +53,7 @@ public class UserController {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        return getAllUserByUsernamePrefixUseCase.execute(usernamePrefix, pageable);
+        return getAllUserByUsernamePrefixUseCase.execute(usernamePrefix, null, pageable);
     }
 
     /*
@@ -77,7 +61,7 @@ public class UserController {
      * follows the user of the given id
      */
     @GetMapping("/by/{userId}")
-    public Page<DetailedUserDTO> findDetailedUsersByUsernamePrefix(
+    public Page<SimpleUserWithIsFriendPropDTO> findDetailedUsersByUsernamePrefix(
             @PathVariable UUID userId,
             @RequestParam(name = "usernamePrefix", defaultValue = "") String usernamePrefix,
             @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,

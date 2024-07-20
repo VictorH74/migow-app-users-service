@@ -1,8 +1,9 @@
-package com.service.users.migow.migow_users_service.application.dtos.users;
+package com.service.users.migow.migow_users_service.application.dtos.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,11 +17,13 @@ import lombok.Getter;
 @Getter
 public class CustomUserDetails extends User implements UserDetails {
 
+    private final UUID id;
     private final String username;
     private final String password;
     Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(User byUsername) {
+        this.id = byUsername.getId();
         this.username = byUsername.getUsername();
         this.password= byUsername.getPassword();
         List<GrantedAuthority> auths = new ArrayList<>();

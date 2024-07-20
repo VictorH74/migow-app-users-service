@@ -15,21 +15,15 @@ import com.service.users.migow.migow_users_service.domain.interfaces.usecases.fr
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetFriendshipStatusUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/friendships")
+@AllArgsConstructor
 public class FriendshipController {
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final GetFriendshipStatusUseCase gifsUseCase;
     private final GetCommonFriendshipCountUseCase gcfcUseCase;
-
-    public FriendshipController(
-            GetUserByIdUseCase getUserByIdUseCase,
-            GetFriendshipStatusUseCase gifsUseCase,
-            GetCommonFriendshipCountUseCase gcfcUseCase) {
-        this.getUserByIdUseCase = getUserByIdUseCase;
-        this.gifsUseCase = gifsUseCase;
-        this.gcfcUseCase = gcfcUseCase;
-    }
 
     @GetMapping("/{userId}/friendship-with/{friendId}")
     public ResponseEntity<Object> getFriendshipdStatus(@PathVariable UUID userId, @PathVariable UUID friendId) {

@@ -1,5 +1,7 @@
 package com.service.users.migow.migow_users_service.infra.security_filters;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,8 +10,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.service.users.migow.migow_users_service.application.dtos.auth.CustomUserDetails;
 import com.service.users.migow.migow_users_service.application.services.JwtService;
-import com.service.users.migow.migow_users_service.infra.db.repositories.implementations.UserDetailsServiceImpl;
+import com.service.users.migow.migow_users_service.domain.entities.User;
+import com.service.users.migow.migow_users_service.domain.exceptions.user.UserNotFounException;
+import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
 
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.FilterChain;
@@ -21,12 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-
     @Autowired
     private JwtService jwtService;
 
     @Autowired
-    UserDetailsServiceImpl userDetailsServiceImpl;
+    UserRepository userRepository;
 
     @SuppressWarnings("null")
     @Override
@@ -37,20 +41,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
         String token = null;
-        String username = null;
+        UUID userId = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             log.info("Bearer token found in Authorization header");
             token = authHeader.substring(7);
-            username = jwtService.extractUsername(token);
-            log.info("Extracted username: " + username);
+            userId = jwtService.extractUserId(token);
+            log.info("Extracted userId: " + userId);
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             log.info("Username not null and no existing authentication found");
-            UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
-            log.info("Loaded user details: " + userDetails);
-            if (jwtService.validateToken(token, userDetails)) {
+
+            User user = userRepository.getUserById(userId).orElseThrow(() -> new UserNotFounException("user with id from the given token not found"));
+            UserDetails userDetails = new CustomUserDetails(user);
+
+            log.info("Loaded user: " + user);
+            if (jwtService.validateToken(token, user.getId())) {
                 log.info("Token validated");
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

@@ -4,21 +4,14 @@ import java.io.Serializable;
 
 import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
+@Getter
+@Setter
 public class FriendshiptCommonCountDTO implements Serializable {
     private final Long count;
     private final SimpleUserDTO[] firstsTwoFriends;
-
-    public FriendshiptCommonCountDTO(Long count, SimpleUserDTO[] firstsTwoFriends) {
-        this.count = count;
-        this.firstsTwoFriends = firstsTwoFriends;
-    }
-
-    public Long getCount() {
-        return count;
-    }
-
-    public SimpleUserDTO[] getFirstsTwoFriends() {
-        return firstsTwoFriends;
-    }
-
 }

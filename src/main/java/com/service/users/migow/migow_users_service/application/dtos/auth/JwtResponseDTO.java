@@ -1,4 +1,4 @@
-package com.service.users.migow.migow_users_service.application.dtos;
+package com.service.users.migow.migow_users_service.application.dtos.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

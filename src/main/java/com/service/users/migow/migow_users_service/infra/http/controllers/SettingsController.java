@@ -17,23 +17,17 @@ import com.service.users.migow.migow_users_service.domain.interfaces.usecases.no
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.privacy_settings.GetPrivacySettingsByOwnerUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("settings/{userId}")
+@AllArgsConstructor
 public class SettingsController {
 
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final GetAccountPreferenceSettingsByOwnerUseCase gapsboUseCase;
     private final GetPrivacySettingsByOwnerUseCase gpsboUseCase;
     private final GetNotificationsSettingsByOwnerUseCase gnsboUseCase;
-
-    public SettingsController(GetUserByIdUseCase getUserByIdUseCase,
-            GetAccountPreferenceSettingsByOwnerUseCase gapsboUseCase, GetPrivacySettingsByOwnerUseCase gpsboUseCase,
-            GetNotificationsSettingsByOwnerUseCase gnsboUseCase) {
-        this.getUserByIdUseCase = getUserByIdUseCase;
-        this.gapsboUseCase = gapsboUseCase;
-        this.gpsboUseCase = gpsboUseCase;
-        this.gnsboUseCase = gnsboUseCase;
-    }
 
     @GetMapping
     public ProfileSettingsDTO getUserProfileSettings(@RequestParam UUID userId) {

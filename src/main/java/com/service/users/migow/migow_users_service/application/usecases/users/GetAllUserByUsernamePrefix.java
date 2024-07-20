@@ -1,5 +1,7 @@
 package com.service.users.migow.migow_users_service.application.usecases.users;
 
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -19,8 +21,8 @@ public class GetAllUserByUsernamePrefix implements GetAllUserByUsernamePrefixUse
     }
 
     @Override
-    public CustomPage<SimpleUserDTO> execute(String usernamePrefix, Pageable pageable) {
-        Page<User> userPage = userRepository.getAllUserByUsernamePrefix(usernamePrefix, pageable);
+    public CustomPage<SimpleUserDTO> execute(String usernamePrefix, UUID userId, Pageable pageable) {
+        Page<User> userPage = userRepository.getAllUserByUsernamePrefix(usernamePrefix, userId, pageable);
         Page<SimpleUserDTO> dtoPage = userPage.map(user -> new SimpleUserDTO(user));
         return new CustomPage<>(dtoPage);
     }

@@ -25,12 +25,6 @@ import com.service.users.migow.migow_users_service.infra.security_filters.JwtAut
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
-
-    // @Bean
-    // public BCryptPasswordEncoder bCryptPasswordEncoder() {
-    // return new BCryptPasswordEncoder();
-    // }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -43,22 +37,6 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
-
-    // auth config
-    // @Bean
-    // public UserDetailsService userDetailsService(BCryptPasswordEncoder
-    // bCryptPasswordEncoder) {
-    // InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-    // manager.createUser(User.withUsername("user")
-    // .password(bCryptPasswordEncoder.encode("userPass"))
-    // .roles("USER")
-    // .build());
-    // manager.createUser(User.withUsername("admin")
-    // .password(bCryptPasswordEncoder.encode("adminPass"))
-    // .roles("USER", "ADMIN")
-    // .build());
-    // return manager;
-    // }
 
     // endpoints roles
     @Bean
@@ -81,7 +59,6 @@ public class SecurityConfig {
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
-
     }
 
     @Bean

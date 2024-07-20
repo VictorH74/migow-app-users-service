@@ -7,8 +7,8 @@ import com.service.users.migow.migow_users_service.domain.entities.User;
 /**
  * return SimpleUserDTO with 'isFriend' property
  */
-public class DetailedUserDTO extends SimpleUserDTO {
-    public DetailedUserDTO(User user, boolean isFriend) {
+public class SimpleUserWithIsFriendPropDTO extends SimpleUserDTO {
+    public SimpleUserWithIsFriendPropDTO(User user, boolean isFriend) {
         super(user);
         this.isFriend = isFriend;
     }

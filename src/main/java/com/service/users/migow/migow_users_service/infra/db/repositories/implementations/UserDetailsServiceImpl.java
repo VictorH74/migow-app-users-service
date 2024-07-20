@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.dtos.users.CustomUserDetails;
+import com.service.users.migow.migow_users_service.application.dtos.auth.CustomUserDetails;
 import com.service.users.migow.migow_users_service.domain.entities.User;
 import com.service.users.migow.migow_users_service.infra.db.repositories.jpa.JpaUserRepository;
 
@@ -16,19 +16,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
-
     @Autowired
     private JpaUserRepository jpaUserRepository;
 
-    // private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
-
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
+    public UserDetails loadUserByUsername(String login) {
         log.debug("Entering in loadUserByUsername Method...");
-        User user = jpaUserRepository.findUserByLogin(username).orElseThrow(() -> {
-            log.error("Username not found: " + username);
-            return new UsernameNotFoundException("could not found user..!!");
+
+        User user = jpaUserRepository.findUserByLogin(login).orElseThrow(() -> {
+            log.error("Username/Email not found: " + login);
+            return new UsernameNotFoundException("Username/Email not found: " + login);
         });
 
         log.info("User Authenticated Successfully..!!!");
