@@ -12,7 +12,7 @@ import com.service.users.migow.migow_users_service.domain.entities.pks.Friendshi
 public interface FriendshipRepository {
     List<Friendship> createManyFriendship(List<Friendship> objs);
 
-    Friendship createFriendship(Friendship obj);
+    void createFriendship(Friendship obj);
 
     Page<Friendship> getAllUserFriendByUsername(UUID userId, String usernamePrefix, Pageable pageable);
 

@@ -1,9 +1,8 @@
 package com.service.users.migow.migow_users_service.application.usecases.friendships;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Component;
 
+import com.service.users.migow.migow_users_service.application.dtos.friendships.CreateDeleteFriendshipDTO;
 import com.service.users.migow.migow_users_service.domain.entities.Friendship;
 import com.service.users.migow.migow_users_service.domain.entities.User;
 import com.service.users.migow.migow_users_service.domain.entities.pks.FriendshipPK;
@@ -12,33 +11,30 @@ import com.service.users.migow.migow_users_service.domain.interfaces.repositorie
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.CreateFriendshipUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
 
-@Component
-public class CreateFriendship implements CreateFriendshipUseCase {
+import lombok.AllArgsConstructor;
 
+@Component
+@AllArgsConstructor
+public class CreateFriendship implements CreateFriendshipUseCase {
     private final FriendshipRepository friendshipRepository;
     private final GetUserByIdUseCase getUserByIdUseCase;
 
-    public CreateFriendship(FriendshipRepository friendshipRepository, GetUserByIdUseCase getUserByIdUseCase) {
-        this.friendshipRepository = friendshipRepository;
-        this.getUserByIdUseCase = getUserByIdUseCase;
-    }
-
     @Override
-    public Friendship execute(UUID userId, UUID friendId) {
-        boolean exists = friendshipRepository.existByUserIds(userId, friendId);
-
-        User user = getUserByIdUseCase.execute(userId).toUser();
-        User friendUser = getUserByIdUseCase.execute(friendId).toUser();
+    public void execute(CreateDeleteFriendshipDTO obj) {
+        boolean exists = friendshipRepository.existByUserIds(obj.getUserId(), obj.getFriendId());
 
         if (exists)
             throw new ExistingFriendshipException();
+
+        User user = getUserByIdUseCase.execute(obj.getUserId()).toUser();
+        User friendUser = getUserByIdUseCase.execute(obj.getFriendId()).toUser();
 
         FriendshipPK friendshipPK = new FriendshipPK();
         friendshipPK.setUser(user);
         friendshipPK.setFriendUser(friendUser);
         Friendship f = new Friendship();
         f.setId(friendshipPK);
-        return friendshipRepository.createFriendship(f);
+        friendshipRepository.createFriendship(f);
     }
 
 }

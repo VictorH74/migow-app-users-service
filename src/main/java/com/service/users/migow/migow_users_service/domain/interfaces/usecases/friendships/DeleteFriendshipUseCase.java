@@ -1,7 +1,7 @@
 package com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships;
 
-import java.util.UUID;
+import com.service.users.migow.migow_users_service.application.dtos.friendships.CreateDeleteFriendshipDTO;
 
 public interface DeleteFriendshipUseCase {
-    void execute(UUID userId, UUID friendId);
+    void execute(CreateDeleteFriendshipDTO obj);
 }

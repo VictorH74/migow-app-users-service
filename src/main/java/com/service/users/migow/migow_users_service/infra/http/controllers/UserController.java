@@ -5,7 +5,9 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserWithIsFriendPropDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.CreateUserDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.ProfileUserDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserWithIsFriendPropDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.UpdateUserDTO;
-import com.service.users.migow.migow_users_service.domain.entities.User;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetAllUserFriendshipsUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.CreateUserUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.DeleteUserByIdUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllDetailedByUsernamePrefixUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllUserByUsernamePrefixUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
@@ -43,6 +46,7 @@ public class UserController {
     private final UpdateUserByIdUseCase updateUserByIdUseCase;
     private final CreateUserUseCase createUserUseCase;
     private final GetAllUserFriendshipsUseCase getAllUserFriendByUsernameUseCase;
+    private final DeleteUserByIdUseCase deleteUserByIdUseCase;
 
     // Return simple users
     @GetMapping
@@ -98,27 +102,28 @@ public class UserController {
     // Update user by given id
     @PatchMapping("/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable UUID userId, @RequestBody UpdateUserDTO updateUserDTO) {
-        // try {
         updateUserByIdUseCase.execute(userId, updateUserDTO);
-        // } catch (UserNotFounException e) {
-        // return ResponseEntity.status(404).body(e.getMessage());
-        // }
+
+        // TODO: provide created user to kafka
+
         return ResponseEntity.status(200).body("User update successfuly!");
     }
 
     @PostMapping
-    public User createUser(@RequestBody User entity) {
-        User user = createUserUseCase.execute(entity);
+    public ResponseEntity<SimpleUserDTO> createUser(@RequestBody CreateUserDTO obj) {
+        SimpleUserDTO user = createUserUseCase.execute(obj);
 
         // TODO: provide created user to kafka
 
-        return user;
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    // @DeleteMapping("/users/{id}")
-    // public String updateUser(User user) {
-    // }
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable UUID userId) {
+        deleteUserByIdUseCase.execute(userId);
 
-    // TODO: delete user (and settings) mapping
+        // TODO: provide created user to kafka
 
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("User with id '%s' deleted!", userId));
+    }
 }

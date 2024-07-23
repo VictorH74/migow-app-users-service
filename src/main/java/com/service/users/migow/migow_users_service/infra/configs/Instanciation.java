@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.service.users.migow.migow_users_service.application.dtos.friendships.CreateDeleteFriendshipDTO;
 import com.service.users.migow.migow_users_service.domain.entities.User;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.CreateFriendshipUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.CreateManyFriendshipUseCase;
@@ -30,9 +31,11 @@ public class Instanciation implements CommandLineRunner {
         public void run(String... args) throws Exception {
                 User[] users = new User[] {
                                 new User(UUID.fromString("fc7dc70e-067b-414d-8a9d-35a2bb5c8736"), "vyctor7410",
-                                                passwordEncoder.encode("123456789"), "Victor Almeida", "victor@gmail.com", null, null),
+                                                passwordEncoder.encode("123456789"), "Victor Almeida",
+                                                "victor@gmail.com", null, null),
                                 new User(UUID.fromString("9bca54b4-6cfe-4f76-8a11-def9c829e627"), "nickT_776",
-                                                passwordEncoder.encode("123456789"), "Nikolas Tesla", "nick@gmail.com", null, null),
+                                                passwordEncoder.encode("123456789"), "Nikolas Tesla", "nick@gmail.com",
+                                                null, null),
                                 new User(UUID.fromString("90f7c337-cc45-4af6-82df-13a7c8cad090"), "mary-988",
                                                 passwordEncoder.encode("123456789"), "Marina Silva", "mari@gmail.com",
                                                 "https://th.bing.com/th/id/OIP.h04o3WE6Gle5wjqYLzhATwHaHa?pid=ImgDet&w=198&h=198&c=7",
@@ -105,8 +108,10 @@ public class Instanciation implements CommandLineRunner {
                         // friendship.setId(pk);
                         // friendships.add(friendship);
 
-                        createFriendshipUseCase.execute(savedUsers.get(usersIndexes[0]).getId(),
-                                        savedUsers.get(usersIndexes[1]).getId());
+                        createFriendshipUseCase.execute(
+                                        new CreateDeleteFriendshipDTO(
+                                                        savedUsers.get(usersIndexes[0]).getId(),
+                                                        savedUsers.get(usersIndexes[1]).getId()));
                 }
                 // createManyFriendshipUseCase.execute(friendships);
                 // createManyFriendshipUseCase.execute(friendships);

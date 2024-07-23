@@ -26,8 +26,8 @@ public class FriendshipRepositoryImpl implements FriendshipRepository {
     }
 
     @Override
-    public Friendship createFriendship(Friendship obj) {
-        return jpaFriendshipRepository.save(obj);
+    public void createFriendship(Friendship obj) {
+        jpaFriendshipRepository.save(obj);
     }
 
     @Override

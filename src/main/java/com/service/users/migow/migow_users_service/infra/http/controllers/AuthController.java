@@ -31,8 +31,11 @@ public class AuthController {
     public JwtResponseDTO login(@RequestBody UserCredentialsDTO credentials) {
 
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(credentials.getLogin(), credentials.getPassword()));
+            Authentication authentication = authenticationManager
+                    .authenticate(
+                            new UsernamePasswordAuthenticationToken(
+                                    credentials.getLogin(),
+                                    credentials.getPassword()));
 
             User user = (User) authentication.getPrincipal();
 

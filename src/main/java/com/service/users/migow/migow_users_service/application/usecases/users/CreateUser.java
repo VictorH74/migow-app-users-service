@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.service.users.migow.migow_users_service.application.dtos.users.CreateUserDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
 import com.service.users.migow.migow_users_service.domain.entities.AccountPreferenceSettings;
 import com.service.users.migow.migow_users_service.domain.entities.NotificationSettings;
 import com.service.users.migow.migow_users_service.domain.entities.PrivacySettings;
 import com.service.users.migow.migow_users_service.domain.entities.User;
+import com.service.users.migow.migow_users_service.domain.enums.VisibilityEnum;
 import com.service.users.migow.migow_users_service.domain.interfaces.repositories.UserRepository;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.account_preference_settings.CreateAccountPreferenceSettingsUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.notification_settings.CreateNotificationsSettingsUseCase;
@@ -35,42 +38,49 @@ public class CreateUser implements CreateUserUseCase {
     }
 
     @Override
-    public User execute(User obj) {
+    public SimpleUserDTO execute(CreateUserDTO obj) {
         if (obj.getId().toString().isEmpty())
             obj.setId(UUID.randomUUID());
 
-        obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+        User user = new User();
+        user.setId(obj.getId());
+        user.setName(obj.getName());
+        user.setUsername(obj.getUsername());
+        user.setPassword(passwordEncoder.encode(obj.getPassword()));
+        user.setProfileImageUrl(obj.getProfileImageUrl());
+        user.setBgImageUrl(obj.getBgImageUrl());
+        user.setEmail(obj.getEmail());
 
-        User user = userRepository.createUpdateUser(obj);
+        User createdUser = userRepository.createUpdateUser(user);
 
         AccountPreferenceSettings accountPreferenceSettings = new AccountPreferenceSettings();
-        accountPreferenceSettings.setOwner(user);
-        accountPreferenceSettings.setTheme(0);
+        accountPreferenceSettings.setOwner(createdUser);
+        accountPreferenceSettings.setTheme(1);
         accountPreferenceSettings.setSoundEffects(true);
-        accountPreferenceSettings.setOnlineUsersLimit(0);
+        accountPreferenceSettings.setOnlineUsersLimit(1);
         cAPSettingsUseCase.execute(accountPreferenceSettings);
 
         PrivacySettings privacySettings = new PrivacySettings();
-        privacySettings.setOwner(user);
-        privacySettings.setImageProfileVisibility(0);
-        privacySettings.setNameVisibility(0);
-        privacySettings.setBioVisibility(0);
-        privacySettings.setFollowersVisibility(0);
-        privacySettings.setActivityVisibility(0);
-        privacySettings.setOnlineStatusVisibility(0);
-        privacySettings.setMessageReadConfirmationVisibility(0);
+        privacySettings.setOwner(createdUser);
+        privacySettings.setImageProfileVisibility(VisibilityEnum.ALL.getCode());
+        privacySettings.setNameVisibility(VisibilityEnum.ALL.getCode());
+        privacySettings.setBioVisibility(VisibilityEnum.ALL.getCode());
+        privacySettings.setFriendshipsVisibility(VisibilityEnum.ALL.getCode());
+        privacySettings.setActivityVisibility(VisibilityEnum.ALL.getCode());
+        privacySettings.setOnlineStatusVisibility(VisibilityEnum.ALL.getCode());
+        privacySettings.setMessageReadConfirmationVisibility(VisibilityEnum.ALL.getCode());
         cPSettingsUseCase.execute(privacySettings);
 
         NotificationSettings notificationsSettings = new NotificationSettings();
-        notificationsSettings.setOwner(user);
-        notificationsSettings.setWhenFollowersPostSomething(true);
-        notificationsSettings.setWhenFollowersCommentSomethig(true);
-        notificationsSettings.setWhenFollowersReactSomething(true);
-        notificationsSettings.setWhenFollowersReplaySomething(true);
-        notificationsSettings.setWhenFollowersMentionMe(true);
+        notificationsSettings.setOwner(createdUser);
+        notificationsSettings.setWhenFriendsPostSomething(true);
+        notificationsSettings.setWhenFriendsCommentSomethig(true);
+        notificationsSettings.setWhenFriendsReactSomething(true);
+        notificationsSettings.setWhenFriendsReplaySomething(true);
+        notificationsSettings.setWhenFriendsMentionMe(true);
         cNSettingsUseCase.execute(notificationsSettings);
 
-        return user;
+        return new SimpleUserDTO(createdUser);
     }
 
 }

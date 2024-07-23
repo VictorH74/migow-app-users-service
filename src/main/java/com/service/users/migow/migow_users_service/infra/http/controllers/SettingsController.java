@@ -4,18 +4,16 @@ import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.service.users.migow.migow_users_service.application.dtos.ProfileSettingsDTO;
-import com.service.users.migow.migow_users_service.domain.entities.AccountPreferenceSettings;
-import com.service.users.migow.migow_users_service.domain.entities.NotificationSettings;
-import com.service.users.migow.migow_users_service.domain.entities.PrivacySettings;
-import com.service.users.migow.migow_users_service.domain.entities.User;
+import com.service.users.migow.migow_users_service.application.dtos.account_preference_settings.SimpleAccountPreferenceSettingsDTO;
+import com.service.users.migow.migow_users_service.application.dtos.notification_settings.SimpleNotificationSettingsDTO;
+import com.service.users.migow.migow_users_service.application.dtos.privacy_settings.SimplePrivacySettingsDTO;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.account_preference_settings.GetAccountPreferenceSettingsByOwnerUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.notification_settings.GetNotificationsSettingsByOwnerUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.privacy_settings.GetPrivacySettingsByOwnerUseCase;
-import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
+import com.service.users.migow.migow_users_service.infra.helpers.SecurityUtils;
 
 import lombok.AllArgsConstructor;
 
@@ -24,41 +22,39 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SettingsController {
 
-    private final GetUserByIdUseCase getUserByIdUseCase;
     private final GetAccountPreferenceSettingsByOwnerUseCase gapsboUseCase;
     private final GetPrivacySettingsByOwnerUseCase gpsboUseCase;
     private final GetNotificationsSettingsByOwnerUseCase gnsboUseCase;
 
     @GetMapping
-    public ProfileSettingsDTO getUserProfileSettings(@RequestParam UUID userId) {
-        User user = getUserByIdUseCase.execute(userId).toUser();
-        AccountPreferenceSettings accountPreferenceSettings = gapsboUseCase.execute(user);
-        PrivacySettings privacySettings = gpsboUseCase.execute(user);
-        NotificationSettings notificationsSettings = gnsboUseCase.execute(user);
+    public ProfileSettingsDTO getUserProfileSettings() {
+        UUID userId = SecurityUtils.getAuthenticatedUserId();
+        SimpleAccountPreferenceSettingsDTO accountPreferenceSettings = gapsboUseCase.execute(userId);
+        SimplePrivacySettingsDTO privacySettings = gpsboUseCase.execute(userId);
+        SimpleNotificationSettingsDTO notificationsSettings = gnsboUseCase.execute(userId);
 
         return new ProfileSettingsDTO(
                 accountPreferenceSettings,
                 privacySettings,
                 notificationsSettings);
-
     }
 
-    @GetMapping("/account-preference-settings")
-    public AccountPreferenceSettings getUserAccountPreferenceSettings(@RequestParam UUID userId) {
-        User user = getUserByIdUseCase.execute(userId).toUser();
-        return gapsboUseCase.execute(user);
+    @GetMapping("/account-preference")
+    public SimpleAccountPreferenceSettingsDTO getUserAccountPreferenceSettings() {
+        UUID userId = SecurityUtils.getAuthenticatedUserId();
+        return gapsboUseCase.execute(userId);
     }
 
-    @GetMapping("/privacy-settings")
-    public PrivacySettings getUserPrivacySettings(@RequestParam UUID userId) {
-        User user = getUserByIdUseCase.execute(userId).toUser();
-        return gpsboUseCase.execute(user);
+    @GetMapping("/privacy")
+    public SimplePrivacySettingsDTO getUserPrivacySettings() {
+        UUID userId = SecurityUtils.getAuthenticatedUserId();
+        return gpsboUseCase.execute(userId);
     }
 
-    @GetMapping("/notifications-settings")
-    public NotificationSettings getUserNotificationsSettings(@RequestParam UUID userId) {
-        User user = getUserByIdUseCase.execute(userId).toUser();
-        return gnsboUseCase.execute(user);
+    @GetMapping("/notification")
+    public SimpleNotificationSettingsDTO getUserNotificationsSettings() {
+        UUID userId = SecurityUtils.getAuthenticatedUserId();
+        return gnsboUseCase.execute(userId);
     }
 
 }
