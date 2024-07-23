@@ -2,7 +2,7 @@ package com.service.users.migow.migow_users_service.domain.enums;
 
 public enum VisibilityEnum {
     ALL(1),
-    FOLLOWERS(2),
+    FRIENDS(2),
     NOBODY(3);
 
     private final int code;

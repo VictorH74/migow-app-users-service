@@ -1,8 +1,9 @@
 package com.service.users.migow.migow_users_service.domain.interfaces.usecases.privacy_settings;
 
-import com.service.users.migow.migow_users_service.domain.entities.PrivacySettings;
-import com.service.users.migow.migow_users_service.domain.entities.User;
+import java.util.UUID;
+
+import com.service.users.migow.migow_users_service.application.dtos.privacy_settings.SimplePrivacySettingsDTO;
 
 public interface GetPrivacySettingsByOwnerUseCase {
-    PrivacySettings execute(User user);
+    SimplePrivacySettingsDTO execute(UUID userId);
 }

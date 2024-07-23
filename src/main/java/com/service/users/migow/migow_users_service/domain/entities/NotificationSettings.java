@@ -18,25 +18,25 @@ public class NotificationSettings {
     @OneToOne()
     private User owner;
 
-    private Boolean whenFollowersPostSomething;
-    private Boolean whenFollowersCommentSomethig;
-    private Boolean whenFollowersReactSomething;
-    private Boolean whenFollowersReplaySomething;
-    private Boolean whenFollowersMentionMe;
+    private Boolean whenFriendsPostSomething;
+    private Boolean whenFriendsCommentSomethig;
+    private Boolean whenFriendsReactSomething;
+    private Boolean whenFriendsReplaySomething;
+    private Boolean whenFriendsMentionMe;
 
     public NotificationSettings() {
     }
 
-    public NotificationSettings(Long id, User owner, Boolean whenFollowersPostSomething,
-            Boolean whenFollowersCommentSomethig, Boolean whenFollowersReactSomething,
-            Boolean whenFollowersReplaySomething, Boolean whenFollowersMentionMe) {
+    public NotificationSettings(Long id, User owner, Boolean whenFriendsPostSomething,
+            Boolean whenFriendsCommentSomethig, Boolean whenFriendsReactSomething,
+            Boolean whenFriendsReplaySomething, Boolean whenFriendsMentionMe) {
         this.id = id;
         this.owner = owner;
-        this.whenFollowersPostSomething = whenFollowersPostSomething;
-        this.whenFollowersCommentSomethig = whenFollowersCommentSomethig;
-        this.whenFollowersReactSomething = whenFollowersReactSomething;
-        this.whenFollowersReplaySomething = whenFollowersReplaySomething;
-        this.whenFollowersMentionMe = whenFollowersMentionMe;
+        this.whenFriendsPostSomething = whenFriendsPostSomething;
+        this.whenFriendsCommentSomethig = whenFriendsCommentSomethig;
+        this.whenFriendsReactSomething = whenFriendsReactSomething;
+        this.whenFriendsReplaySomething = whenFriendsReplaySomething;
+        this.whenFriendsMentionMe = whenFriendsMentionMe;
     }
 
     public Long getId() {
@@ -47,24 +47,24 @@ public class NotificationSettings {
         return owner;
     }
 
-    public Boolean getWhenFollowersPostSomething() {
-        return whenFollowersPostSomething;
+    public Boolean getWhenFriendsPostSomething() {
+        return whenFriendsPostSomething;
     }
 
-    public Boolean getWhenFollowersCommentSomethig() {
-        return whenFollowersCommentSomethig;
+    public Boolean getWhenFriendsCommentSomethig() {
+        return whenFriendsCommentSomethig;
     }
 
-    public Boolean getWhenFollowersReactSomething() {
-        return whenFollowersReactSomething;
+    public Boolean getWhenFriendsReactSomething() {
+        return whenFriendsReactSomething;
     }
 
-    public Boolean getWhenFollowersReplaySomething() {
-        return whenFollowersReplaySomething;
+    public Boolean getWhenFriendsReplaySomething() {
+        return whenFriendsReplaySomething;
     }
 
-    public Boolean getWhenFollowersMentionMe() {
-        return whenFollowersMentionMe;
+    public Boolean getWhenFriendsMentionMe() {
+        return whenFriendsMentionMe;
     }
 
     public void setId(Long id) {
@@ -75,24 +75,24 @@ public class NotificationSettings {
         this.owner = owner;
     }
 
-    public void setWhenFollowersPostSomething(Boolean whenFollowersPostSomething) {
-        this.whenFollowersPostSomething = whenFollowersPostSomething;
+    public void setWhenFriendsPostSomething(Boolean whenFriendsPostSomething) {
+        this.whenFriendsPostSomething = whenFriendsPostSomething;
     }
 
-    public void setWhenFollowersCommentSomethig(Boolean whenFollowersCommentSomethig) {
-        this.whenFollowersCommentSomethig = whenFollowersCommentSomethig;
+    public void setWhenFriendsCommentSomethig(Boolean whenFriendsCommentSomethig) {
+        this.whenFriendsCommentSomethig = whenFriendsCommentSomethig;
     }
 
-    public void setWhenFollowersReactSomething(Boolean whenFollowersReactSomething) {
-        this.whenFollowersReactSomething = whenFollowersReactSomething;
+    public void setWhenFriendsReactSomething(Boolean whenFriendsReactSomething) {
+        this.whenFriendsReactSomething = whenFriendsReactSomething;
     }
 
-    public void setWhenFollowersReplaySomething(Boolean whenFollowersReplaySomething) {
-        this.whenFollowersReplaySomething = whenFollowersReplaySomething;
+    public void setWhenFriendsReplaySomething(Boolean whenFriendsReplaySomething) {
+        this.whenFriendsReplaySomething = whenFriendsReplaySomething;
     }
 
-    public void setWhenFollowersMentionMe(Boolean whenFollowersMentionMe) {
-        this.whenFollowersMentionMe = whenFollowersMentionMe;
+    public void setWhenFriendsMentionMe(Boolean whenFriendsMentionMe) {
+        this.whenFriendsMentionMe = whenFriendsMentionMe;
     }
 
     @Override

@@ -8,9 +8,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "db_privacy_settings")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class PrivacySettings {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,95 +32,6 @@ public class PrivacySettings {
     private Integer activityVisibility;
     private Integer onlineStatusVisibility;
     private Integer messageReadConfirmationVisibility;
-
-    public PrivacySettings() {
-    }
-
-    public PrivacySettings(Long id, User owner, Integer imageProfileVisibility, Integer nameVisibility,
-            Integer bioVisibility, Integer friendshipsVisibility, Integer activityVisibility,
-            Integer onlineStatusVisibility, Integer messageReadConfirmationVisibility) {
-        this.id = id;
-        this.owner = owner;
-        this.imageProfileVisibility = imageProfileVisibility;
-        this.nameVisibility = nameVisibility;
-        this.bioVisibility = bioVisibility;
-        this.friendshipsVisibility = friendshipsVisibility;
-        this.activityVisibility = activityVisibility;
-        this.onlineStatusVisibility = onlineStatusVisibility;
-        this.messageReadConfirmationVisibility = messageReadConfirmationVisibility;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public Integer getImageProfileVisibility() {
-        return imageProfileVisibility;
-    }
-
-    public Integer getNameVisibility() {
-        return nameVisibility;
-    }
-
-    public Integer getBioVisibility() {
-        return bioVisibility;
-    }
-
-    public Integer getFollowersVisibility() {
-        return friendshipsVisibility;
-    }
-
-    public Integer getActivityVisibility() {
-        return activityVisibility;
-    }
-
-    public Integer getOnlineStatusVisibility() {
-        return onlineStatusVisibility;
-    }
-
-    public Integer getMessageReadConfirmationVisibility() {
-        return messageReadConfirmationVisibility;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public void setImageProfileVisibility(Integer imageProfileVisibility) {
-        this.imageProfileVisibility = imageProfileVisibility;
-    }
-
-    public void setNameVisibility(Integer nameVisibility) {
-        this.nameVisibility = nameVisibility;
-    }
-
-    public void setBioVisibility(Integer bioVisibility) {
-        this.bioVisibility = bioVisibility;
-    }
-
-    public void setFollowersVisibility(Integer friendshipsVisibility) {
-        this.friendshipsVisibility = friendshipsVisibility;
-    }
-
-    public void setActivityVisibility(Integer activityVisibility) {
-        this.activityVisibility = activityVisibility;
-    }
-
-    public void setOnlineStatusVisibility(Integer onlineStatusVisibility) {
-        this.onlineStatusVisibility = onlineStatusVisibility;
-    }
-
-    public void setMessageReadConfirmationVisibility(Integer messageReadConfirmationVisibility) {
-        this.messageReadConfirmationVisibility = messageReadConfirmationVisibility;
-    }
 
     @Override
     public int hashCode() {
