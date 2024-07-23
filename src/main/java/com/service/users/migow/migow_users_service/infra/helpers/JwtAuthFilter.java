@@ -1,4 +1,4 @@
-package com.service.users.migow.migow_users_service.infra.security_filters;
+package com.service.users.migow.migow_users_service.infra.helpers;
 
 import java.util.UUID;
 
@@ -65,6 +65,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             } else {
                 log.info("Token validation failed");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
+                return;
             }
 
         }
