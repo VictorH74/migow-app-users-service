@@ -76,7 +76,7 @@ public class CreateUser implements CreateUserUseCase {
         notificationsSettings.setWhenFriendsPostSomething(true);
         notificationsSettings.setWhenFriendsCommentSomethig(true);
         notificationsSettings.setWhenFriendsReactSomething(true);
-        notificationsSettings.setWhenFriendsReplaySomething(true);
+        notificationsSettings.setWhenFriendsReplySomething(true);
         notificationsSettings.setWhenFriendsMentionMe(true);
         cNSettingsUseCase.execute(notificationsSettings);
 

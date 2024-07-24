@@ -21,7 +21,7 @@ public class NotificationSettings {
     private Boolean whenFriendsPostSomething;
     private Boolean whenFriendsCommentSomethig;
     private Boolean whenFriendsReactSomething;
-    private Boolean whenFriendsReplaySomething;
+    private Boolean whenFriendsReplySomething;
     private Boolean whenFriendsMentionMe;
 
     public NotificationSettings() {
@@ -29,13 +29,13 @@ public class NotificationSettings {
 
     public NotificationSettings(Long id, User owner, Boolean whenFriendsPostSomething,
             Boolean whenFriendsCommentSomethig, Boolean whenFriendsReactSomething,
-            Boolean whenFriendsReplaySomething, Boolean whenFriendsMentionMe) {
+            Boolean whenFriendsReplySomething, Boolean whenFriendsMentionMe) {
         this.id = id;
         this.owner = owner;
         this.whenFriendsPostSomething = whenFriendsPostSomething;
         this.whenFriendsCommentSomethig = whenFriendsCommentSomethig;
         this.whenFriendsReactSomething = whenFriendsReactSomething;
-        this.whenFriendsReplaySomething = whenFriendsReplaySomething;
+        this.whenFriendsReplySomething = whenFriendsReplySomething;
         this.whenFriendsMentionMe = whenFriendsMentionMe;
     }
 
@@ -59,8 +59,8 @@ public class NotificationSettings {
         return whenFriendsReactSomething;
     }
 
-    public Boolean getWhenFriendsReplaySomething() {
-        return whenFriendsReplaySomething;
+    public Boolean getWhenFriendsReplySomething() {
+        return whenFriendsReplySomething;
     }
 
     public Boolean getWhenFriendsMentionMe() {
@@ -87,8 +87,8 @@ public class NotificationSettings {
         this.whenFriendsReactSomething = whenFriendsReactSomething;
     }
 
-    public void setWhenFriendsReplaySomething(Boolean whenFriendsReplaySomething) {
-        this.whenFriendsReplaySomething = whenFriendsReplaySomething;
+    public void setWhenFriendsReplySomething(Boolean whenFriendsReplySomething) {
+        this.whenFriendsReplySomething = whenFriendsReplySomething;
     }
 
     public void setWhenFriendsMentionMe(Boolean whenFriendsMentionMe) {

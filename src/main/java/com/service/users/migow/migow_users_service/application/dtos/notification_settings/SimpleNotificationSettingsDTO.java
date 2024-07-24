@@ -10,7 +10,7 @@ public class SimpleNotificationSettingsDTO {
     private final Boolean whenFriendsPostSomething;
     private final Boolean whenFriendsCommentSomethig;
     private final Boolean whenFriendsReactSomething;
-    private final Boolean whenFriendsReplaySomething;
+    private final Boolean whenFriendsReplySomething;
     private final Boolean whenFriendsMentionMe;
 
     public SimpleNotificationSettingsDTO(NotificationSettings nSettings) {
@@ -18,7 +18,7 @@ public class SimpleNotificationSettingsDTO {
         this.whenFriendsPostSomething = nSettings.getWhenFriendsPostSomething();
         this.whenFriendsCommentSomethig = nSettings.getWhenFriendsCommentSomethig();
         this.whenFriendsReactSomething = nSettings.getWhenFriendsReactSomething();
-        this.whenFriendsReplaySomething = nSettings.getWhenFriendsReplaySomething();
+        this.whenFriendsReplySomething = nSettings.getWhenFriendsReplySomething();
         this.whenFriendsMentionMe = nSettings.getWhenFriendsMentionMe();
     }
 
