@@ -1,5 +1,6 @@
 package com.service.users.migow.migow_users_service.infra.db.repositories.jpa;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -19,4 +20,7 @@ public interface JpaFriendshipRepository extends JpaRepository<Friendship, Frien
 
     @Query("SELECT COUNT(f) > 0 FROM Friendship f WHERE (f.id.user.id = :userId1 AND f.id.friendUser.id = :userId2) OR (f.id.user.id = :userId2 AND f.id.friendUser.id = :userId1)")
     public boolean existByUserIds(UUID userId1, UUID userId2);
+
+    @Query("SELECT f FROM Friendship f WHERE (f.id.user.id = :userId1 AND f.id.friendUser.id = :userId2) OR (f.id.user.id = :userId2 AND f.id.friendUser.id = :userId1)")
+    public Optional<Friendship> findFriendshipByTwoUsers(UUID userId1, UUID userId2);
 }

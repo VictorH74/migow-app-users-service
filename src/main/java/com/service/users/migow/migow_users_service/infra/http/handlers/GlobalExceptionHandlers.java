@@ -2,6 +2,7 @@ package com.service.users.migow.migow_users_service.infra.http.handlers;
 
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.service.users.migow.migow_users_service.domain.exceptions.friendships.ExistingFriendshipException;
+
+import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandlers {
@@ -40,6 +43,24 @@ public class GlobalExceptionHandlers {
     public ResponseEntity<ResponseErrorBody> handleIllegalArgumentException(ExistingFriendshipException ex) {
         return ResponseEntity.status(HttpStatus.IM_USED)
                 .body(new ResponseErrorBody(ex.getMessage(), HttpStatus.IM_USED.value()));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ResponseErrorBody> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        String message = "Data integrity violation";
+        Throwable rootCause = ex.getRootCause();
+
+        if (rootCause instanceof ConstraintViolationException) {
+            ConstraintViolationException constraintViolationException = (ConstraintViolationException) rootCause;
+            if (constraintViolationException.getMessage().contains("UK_USERNAME")) {
+                message = "Username must be unique";
+            } else if (constraintViolationException.getMessage().contains("UK_EMAIL")) {
+                message = "Email must be unique";
+            }
+        }
+
+        ResponseErrorBody responseErrorBody = new ResponseErrorBody(message, HttpStatus.CONFLICT.value());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(responseErrorBody);
     }
 
 }

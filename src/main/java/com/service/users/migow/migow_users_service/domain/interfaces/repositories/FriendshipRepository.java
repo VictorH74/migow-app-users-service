@@ -1,6 +1,7 @@
 package com.service.users.migow.migow_users_service.domain.interfaces.repositories;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -19,6 +20,8 @@ public interface FriendshipRepository {
     boolean getFriendshipStatus(UUID userId, UUID friendId);
 
     boolean existByUserIds(UUID userId1, UUID userId2);
+
+    Optional<Friendship> getFriendshipByTwoUsers(UUID userId1, UUID userId2);
 
     void deleteFriendship(FriendshipPK id);
 

@@ -1,6 +1,7 @@
 package com.service.users.migow.migow_users_service.infra.db.repositories.implementations;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -48,6 +49,11 @@ public class FriendshipRepositoryImpl implements FriendshipRepository {
     @Override
     public boolean existByUserIds(UUID userId1, UUID userId2) {
         return jpaFriendshipRepository.existByUserIds(userId1, userId2);
+    }
+
+    @Override
+    public Optional<Friendship> getFriendshipByTwoUsers(UUID userId1, UUID userId2) {
+        return jpaFriendshipRepository.findFriendshipByTwoUsers(userId1, userId2);
     }
 
 }

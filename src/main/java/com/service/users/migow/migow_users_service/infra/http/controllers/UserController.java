@@ -11,19 +11,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.users.migow.migow_users_service.application.dtos.users.CreateUserDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.ProfileUserDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserWithIsFriendPropDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.UpdateUserDTO;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetAllUserFriendshipsUseCase;
-import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.CreateUserUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.DeleteUserByIdUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllDetailedByUsernamePrefixUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllUserByUsernamePrefixUseCase;
@@ -44,7 +41,6 @@ public class UserController {
     private final GetUserByUsernameUseCase getUserByUsernameUseCase;
     private final GetAllDetailedByUsernamePrefixUseCase getAllDetailedByUsernamePrefixUseCase;
     private final UpdateUserByIdUseCase updateUserByIdUseCase;
-    private final CreateUserUseCase createUserUseCase;
     private final GetAllUserFriendshipsUseCase getAllUserFriendByUsernameUseCase;
     private final DeleteUserByIdUseCase deleteUserByIdUseCase;
 
@@ -103,19 +99,9 @@ public class UserController {
     @PatchMapping("/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable UUID userId, @RequestBody UpdateUserDTO updateUserDTO) {
         updateUserByIdUseCase.execute(userId, updateUserDTO);
-
         // TODO: provide created user to kafka
 
         return ResponseEntity.status(200).body("User update successfuly!");
-    }
-
-    @PostMapping
-    public ResponseEntity<SimpleUserDTO> createUser(@RequestBody CreateUserDTO obj) {
-        SimpleUserDTO user = createUserUseCase.execute(obj);
-
-        // TODO: provide created user to kafka
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @DeleteMapping("/{userId}")

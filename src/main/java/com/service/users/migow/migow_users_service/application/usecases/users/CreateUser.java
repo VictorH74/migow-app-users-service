@@ -19,6 +19,8 @@ import com.service.users.migow.migow_users_service.domain.interfaces.usecases.no
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.privacy_settings.CreatePrivacySettingsUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.CreateUserUseCase;
 
+import jakarta.transaction.Transactional;
+
 @Component
 public class CreateUser implements CreateUserUseCase {
     private final UserRepository userRepository;
@@ -38,8 +40,9 @@ public class CreateUser implements CreateUserUseCase {
     }
 
     @Override
+    @Transactional
     public SimpleUserDTO execute(CreateUserDTO obj) {
-        if (obj.getId().toString().isEmpty())
+        if (obj.getId() == null)
             obj.setId(UUID.randomUUID());
 
         User user = new User();

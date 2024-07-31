@@ -15,6 +15,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,15 +23,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "db_user")
+@Table(name = "db_user", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "username", name = "UK_USERNAME"),
+    @UniqueConstraint(columnNames = "email", name = "UK_EMAIL")
+})
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 public class User implements Serializable {
     @Id
-    // @GeneratedValue(generator = "UUID")
-    // @GeneratedValue(strategy = GenerationType.AUTO, generator = "UUID")
     private UUID id;
     @Column(nullable = false, unique = true, length = 25)
     private String username;
