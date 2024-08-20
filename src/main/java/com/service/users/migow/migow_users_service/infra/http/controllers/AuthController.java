@@ -38,7 +38,7 @@ public class AuthController {
 
         obj.setId(responseUser.getId());
         postServiceClient.createUserInPostService(obj);
-        
+
         return this.login(new UserCredentialsDTO(obj.getUsername(), obj.getPassword()));
     }
 
@@ -55,7 +55,11 @@ public class AuthController {
             User user = (User) authentication.getPrincipal();
 
             if (authentication.isAuthenticated())
-                return JwtResponseDTO.builder().accessToken(jwtService.GenerateToken(user.getId())).build();
+                return JwtResponseDTO.builder()
+                        .accessToken(jwtService.GenerateToken(
+                                user.getId(),
+                                user.getEmail()))
+                        .build();
 
             throw new UsernameNotFoundException("invalid user request..!!");
 

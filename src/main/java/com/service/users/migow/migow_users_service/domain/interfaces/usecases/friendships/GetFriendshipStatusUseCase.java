@@ -2,6 +2,8 @@ package com.service.users.migow.migow_users_service.domain.interfaces.usecases.f
 
 import java.util.UUID;
 
+import com.service.users.migow.migow_users_service.domain.enums.FriendshipStatusEnum;
+
 public interface GetFriendshipStatusUseCase {
-    boolean execute(UUID userId, UUID friendId);
+    FriendshipStatusEnum execute(UUID userId, UUID friendId);
 }

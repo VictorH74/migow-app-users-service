@@ -18,7 +18,7 @@ public class DeleteFriendship implements DeleteFriendshipUseCase {
     @Override
     public void execute(CreateDeleteFriendshipDTO obj) {
         Friendship f = friendshipRepository
-                .getFriendshipByTwoUsers(obj.getUserId(), obj.getFriendId())
+                .getFriendshipByTwoUsers(obj.getOwnerId(), obj.getTargetId())
                 .orElseThrow(() -> new NotFoundFriendshipException());
 
         friendshipRepository.deleteFriendship(f.getId());

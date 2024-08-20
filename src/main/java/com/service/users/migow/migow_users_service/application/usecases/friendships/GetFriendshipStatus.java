@@ -4,26 +4,29 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+import com.service.users.migow.migow_users_service.domain.enums.FriendshipStatusEnum;
 import com.service.users.migow.migow_users_service.domain.interfaces.repositories.FriendshipRepository;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendship_requests.ExistFriendshipRequestUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetFriendshipStatusUseCase;
-import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetUserByIdUseCase;
+
+import lombok.AllArgsConstructor;
 
 @Component
+@AllArgsConstructor
 public class GetFriendshipStatus implements GetFriendshipStatusUseCase {
-
     private final FriendshipRepository friendshipRepository;
-    private final GetUserByIdUseCase getUserByIdUseCase;
-
-    public GetFriendshipStatus(FriendshipRepository friendshipRepository, GetUserByIdUseCase getUserByIdUseCase) {
-        this.friendshipRepository = friendshipRepository;
-        this.getUserByIdUseCase = getUserByIdUseCase;
-    }
+    private final ExistFriendshipRequestUseCase existFriendshipRequestUseCase;
 
     @Override
-    public boolean execute(UUID userId, UUID friendId) {
-        getUserByIdUseCase.execute(userId);
-        getUserByIdUseCase.execute(friendId);
-        return friendshipRepository.getFriendshipStatus(userId, friendId);
+    public FriendshipStatusEnum execute(UUID userId, UUID targetId) {
+
+        boolean isFriend = friendshipRepository.getFriendshipStatus(userId, targetId);
+        if (isFriend) return FriendshipStatusEnum.IS_FRIEND;
+
+        boolean existFriendshipRequest = existFriendshipRequestUseCase.execute(userId, targetId);
+        if (existFriendshipRequest) return FriendshipStatusEnum.PENDING;
+
+        return FriendshipStatusEnum.IS_NOT_FRIEND;
     }
 
 }

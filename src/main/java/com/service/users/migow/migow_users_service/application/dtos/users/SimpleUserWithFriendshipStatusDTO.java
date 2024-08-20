@@ -5,18 +5,18 @@ import java.util.UUID;
 import com.service.users.migow.migow_users_service.domain.entities.User;
 
 /**
- * return SimpleUserDTO with 'isFriend' property
+ * return SimpleUserDTO with 'friendshipStatus' property
  */
-public class SimpleUserWithIsFriendPropDTO extends SimpleUserDTO {
-    public SimpleUserWithIsFriendPropDTO(User user, boolean isFriend) {
+public class SimpleUserWithFriendshipStatusDTO extends SimpleUserDTO {
+    public SimpleUserWithFriendshipStatusDTO(User user, int friendshipStatus) {
         super(user);
-        this.isFriend = isFriend;
+        this.friendshipStatus = friendshipStatus;
     }
 
-    private boolean isFriend;
+    private int friendshipStatus;
 
-    public boolean getIsFriend() {
-        return isFriend;
+    public int getFriendshipStatus() {
+        return friendshipStatus;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class SimpleUserWithIsFriendPropDTO extends SimpleUserDTO {
         return super.getUsername();
     }
 
-    public void setIsFriend(boolean isFriend) {
-        this.isFriend = isFriend;
+    public void setFriendshipStatus(int friendshipStatus) {
+        this.friendshipStatus = friendshipStatus;
     }
 
     @Override

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.service.users.migow.migow_users_service.application.dtos.users.ProfileUserDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
-import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserWithIsFriendPropDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserWithFriendshipStatusDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.UpdateUserDTO;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetAllUserFriendshipsUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.DeleteUserByIdUseCase;
@@ -61,7 +61,7 @@ public class UserController {
      * follows the user of the given id
      */
     @GetMapping("/by/{userId}")
-    public Page<SimpleUserWithIsFriendPropDTO> findDetailedUsersByUsernamePrefix(
+    public Page<SimpleUserWithFriendshipStatusDTO> findDetailedUsersByUsernamePrefix(
             @PathVariable UUID userId,
             @RequestParam(name = "usernamePrefix", defaultValue = "") String usernamePrefix,
             @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,

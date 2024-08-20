@@ -21,13 +21,13 @@ public class CreateFriendship implements CreateFriendshipUseCase {
 
     @Override
     public void execute(CreateDeleteFriendshipDTO obj) {
-        boolean exists = friendshipRepository.existByUserIds(obj.getUserId(), obj.getFriendId());
+        boolean exists = friendshipRepository.existByUserIds(obj.getOwnerId(), obj.getTargetId());
 
         if (exists)
             throw new ExistingFriendshipException();
 
-        User user = getUserByIdUseCase.execute(obj.getUserId()).toUser();
-        User friendUser = getUserByIdUseCase.execute(obj.getFriendId()).toUser();
+        User user = getUserByIdUseCase.execute(obj.getOwnerId()).toUser();
+        User friendUser = getUserByIdUseCase.execute(obj.getTargetId()).toUser();
 
         FriendshipPK friendshipPK = new FriendshipPK();
         friendshipPK.setUser(user);

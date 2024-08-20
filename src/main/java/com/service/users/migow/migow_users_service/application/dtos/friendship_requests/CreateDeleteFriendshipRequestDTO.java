@@ -1,4 +1,4 @@
-package com.service.users.migow.migow_users_service.application.dtos.friendships;
+package com.service.users.migow.migow_users_service.application.dtos.friendship_requests;
 
 import java.util.UUID;
 
@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class CreateDeleteFriendshipDTO {
+public class CreateDeleteFriendshipRequestDTO {
     private final UUID ownerId;
     private final UUID targetId;
 }

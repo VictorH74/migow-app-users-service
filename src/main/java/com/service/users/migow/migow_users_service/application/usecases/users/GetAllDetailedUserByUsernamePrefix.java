@@ -5,8 +5,9 @@ import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserWithIsFriendPropDTO;
 import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
+import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserWithFriendshipStatusDTO;
+import com.service.users.migow.migow_users_service.domain.enums.FriendshipStatusEnum;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetFriendshipStatusUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllDetailedByUsernamePrefixUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.users.GetAllUserByUsernamePrefixUseCase;
@@ -25,12 +26,14 @@ public class GetAllDetailedUserByUsernamePrefix implements GetAllDetailedByUsern
     }
 
     @Override
-    public CustomPage<SimpleUserWithIsFriendPropDTO> execute(String usernamePrefix, UUID userId, Pageable pageable) {
+    public CustomPage<SimpleUserWithFriendshipStatusDTO> execute(String usernamePrefix, UUID userId, Pageable pageable) {
         CustomPage<SimpleUserDTO> users = getAllUserByUsernamePrefixUseCase.execute(usernamePrefix, userId, pageable);
 
         return users.map(simpleUserDTO -> {
-            boolean isFriend = getFriendshipStatusUseCase.execute(simpleUserDTO.getId(), userId);
-            return new SimpleUserWithIsFriendPropDTO(simpleUserDTO.toUser(), isFriend);
+            FriendshipStatusEnum status = getFriendshipStatusUseCase.execute(userId, simpleUserDTO.getId());
+        
+
+            return new SimpleUserWithFriendshipStatusDTO(simpleUserDTO.toUser(), status.getCode());
         });
 
     }

@@ -9,6 +9,7 @@ import com.service.users.migow.migow_users_service.application.dtos.friendships.
 import com.service.users.migow.migow_users_service.application.dtos.users.SimpleUserDTO;
 import com.service.users.migow.migow_users_service.domain.entities.Friendship;
 import com.service.users.migow.migow_users_service.domain.entities.User;
+import com.service.users.migow.migow_users_service.domain.enums.FriendshipStatusEnum;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetCommonFriendshipCountUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetFriendshipStatusUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.GetFullUserFriendshipUseCase;
@@ -36,7 +37,7 @@ public class GetCommonFriendshipCount implements GetCommonFriendshipCountUseCase
 
         Long count = friendships.stream()
                 .filter(friendship -> getFriendshipStatusUseCase.execute(friendship.getId().getUser().getId(),
-                        targetUser))
+                        targetUser).equals(FriendshipStatusEnum.IS_FRIEND))
                 .count();
 
         SimpleUserDTO[] firstTwoFriends = {
