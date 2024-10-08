@@ -23,6 +23,7 @@ import com.service.users.migow.migow_users_service.application.dtos.friendships.
 import com.service.users.migow.migow_users_service.application.dtos.friendships.FriendshiptCommonCountDTO;
 import com.service.users.migow.migow_users_service.domain.enums.FriendshipStatusEnum;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendship_requests.CreateFriendshipRequestUseCase;
+import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendship_requests.DeleteFriendshipRequestUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendship_requests.GetAllOwnerFriendshipRequestUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendship_requests.GetAllTargetFriendshipRequestUseCase;
 import com.service.users.migow.migow_users_service.domain.interfaces.usecases.friendships.DeleteFriendshipUseCase;
@@ -38,9 +39,11 @@ import lombok.extern.log4j.Log4j2;
 @AllArgsConstructor
 @Log4j2
 public class FriendshipController {
+
     private final GetFriendshipStatusUseCase gifsUseCase;
     private final GetCommonFriendshipCountUseCase gcfcUseCase;
     private final CreateFriendshipRequestUseCase createFriendshipRequestUseCase;
+    private final DeleteFriendshipRequestUseCase deleteFriendshipRequestUseCase;
     private final DeleteFriendshipUseCase deleteFriendshipUseCase;
     private final GetAllOwnerFriendshipRequestUseCase getAllOwnerFriendshipRequestUseCase;
     private final GetAllTargetFriendshipRequestUseCase getAllTargetFriendshipRequestUseCase;
@@ -55,6 +58,12 @@ public class FriendshipController {
         return getAllOwnerFriendshipRequestUseCase.execute(userId, pageable);
     }
 
+    @DeleteMapping("/sent-requests")
+    public void deleteSentRequest(
+            @RequestBody CreateDeleteFriendshipRequestDTO obj) {
+        deleteFriendshipRequestUseCase.execute(obj.getOwnerId(), obj.getTargetId());
+    }
+
     @GetMapping("/received-requests")
     public Page<ResponseFriendshipRequestDTO> getReceivedRequests(
             @RequestParam UUID userId,
@@ -66,7 +75,7 @@ public class FriendshipController {
     }
 
     @PostMapping("/request")
-    public ResponseEntity<String> createFriendship(@RequestBody CreateDeleteFriendshipRequestDTO obj) {
+    public ResponseEntity<String> createFriendshipRequest(@RequestBody CreateDeleteFriendshipRequestDTO obj) {
         log.info("Friendship request created!");
 
         // TODO: provide created user to kafka
@@ -82,14 +91,14 @@ public class FriendshipController {
         deleteFriendshipUseCase.execute(obj);
 
         // TODO: provide created user to kafka
-
         return ResponseEntity.status(HttpStatus.OK).body("Friendship deleted!");
     }
 
     @GetMapping("/{userId}/friendship-with/{friendId}")
     public ResponseEntity<Object> getFriendshipdStatus(@PathVariable UUID userId, @PathVariable UUID friendId) {
-        if (userId.toString().isEmpty() || friendId.toString().isEmpty())
+        if (userId.toString().isEmpty() || friendId.toString().isEmpty()) {
             return ResponseEntity.status(400).body("userId and friendId must be not empty");
+        }
 
         FriendshipStatusEnum friendshipStatus = gifsUseCase.execute(userId, friendId);
         return ResponseEntity.status(200).body(new FriendshipStatusDTO(friendshipStatus));
@@ -99,8 +108,9 @@ public class FriendshipController {
     public ResponseEntity<FriendshiptCommonCountDTO> getCommonFriendsCount(@RequestParam UUID targetId) {
         UUID userId = SecurityUtils.getAuthenticatedUserId();
 
-        if (userId.toString().isEmpty() || targetId.toString().isEmpty())
+        if (userId.toString().isEmpty() || targetId.toString().isEmpty()) {
             throw new IllegalArgumentException("userId and targetId must be not empty");
+        }
 
         FriendshiptCommonCountDTO commonCount = gcfcUseCase.execute(userId, targetId);
         return ResponseEntity.status(200).body(commonCount);

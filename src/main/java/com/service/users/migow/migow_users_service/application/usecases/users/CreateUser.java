@@ -2,7 +2,8 @@ package com.service.users.migow.migow_users_service.application.usecases.users;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -23,27 +24,36 @@ import jakarta.transaction.Transactional;
 
 @Component
 public class CreateUser implements CreateUserUseCase {
+
     private final UserRepository userRepository;
     private final CreateAccountPreferenceSettingsUseCase cAPSettingsUseCase;
     private final CreatePrivacySettingsUseCase cPSettingsUseCase;
     private final CreateNotificationsSettingsUseCase cNSettingsUseCase;
+    private final PasswordEncoder passwordEncoder;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+    @Value("${kafka.topic.userCreated}")
+    private String userCreatedTopic;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public CreateUser(UserRepository userRepository, CreateAccountPreferenceSettingsUseCase cAPSettingsUseCase,
-            CreatePrivacySettingsUseCase cPSettingsUseCase, CreateNotificationsSettingsUseCase cNSettingsUseCase) {
+    public CreateUser(UserRepository userRepository,
+            CreateAccountPreferenceSettingsUseCase cAPSettingsUseCase,
+            CreatePrivacySettingsUseCase cPSettingsUseCase,
+            CreateNotificationsSettingsUseCase cNSettingsUseCase,
+            KafkaTemplate<String, Object> kafkaTemplate,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.cAPSettingsUseCase = cAPSettingsUseCase;
         this.cPSettingsUseCase = cPSettingsUseCase;
         this.cNSettingsUseCase = cNSettingsUseCase;
+        this.kafkaTemplate = kafkaTemplate;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
     public SimpleUserDTO execute(CreateUserDTO obj) {
-        if (obj.getId() == null)
+        if (obj.getId() == null) {
             obj.setId(UUID.randomUUID());
+        }
 
         User user = new User();
         user.setId(obj.getId());
@@ -82,6 +92,8 @@ public class CreateUser implements CreateUserUseCase {
         notificationsSettings.setWhenFriendsReplySomething(true);
         notificationsSettings.setWhenFriendsMentionMe(true);
         cNSettingsUseCase.execute(notificationsSettings);
+
+        kafkaTemplate.send(userCreatedTopic, createdUser);
 
         return new SimpleUserDTO(createdUser);
     }

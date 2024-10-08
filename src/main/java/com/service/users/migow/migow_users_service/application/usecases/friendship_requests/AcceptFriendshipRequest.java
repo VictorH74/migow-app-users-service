@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 @Component
 @AllArgsConstructor
 public class AcceptFriendshipRequest implements AcceptFriendshipRequestUseCase {
+
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final DeleteFriendshipRequestUseCase deleteFriendshipRequestUseCase;
     private final GetFriendshipRequestByIdUseCase getFriendshipRequestByIdUseCase;
@@ -45,7 +46,7 @@ public class AcceptFriendshipRequest implements AcceptFriendshipRequestUseCase {
 
         friendshipRepository.createFriendship(f);
 
-        deleteFriendshipRequestUseCase.execute(pk);
+        deleteFriendshipRequestUseCase.execute(ownerId, targetId);
     }
 
 }

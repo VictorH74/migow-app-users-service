@@ -2,7 +2,6 @@ package com.service.users.migow.migow_users_service.domain.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -11,13 +10,12 @@ import org.hibernate.validator.constraints.URL;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,7 +29,9 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
+@Builder
 public class User implements Serializable {
+
     @Id
     private UUID id;
     @Column(nullable = false, unique = true, length = 25)
@@ -49,14 +49,11 @@ public class User implements Serializable {
     private String bgImageUrl;
     private Instant createdAt;
 
-    // @OneToMany(mappedBy = "id.friendUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private Set<Friendship> friendships;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<UserRole> roles = new HashSet<>();
+    private Set<String> roles;
 
     public User() {
         this.createdAt = Instant.now();
+        this.roles = Set.of("USER");
     }
 
     public User(String username, String password, String name, @Email String email, @URL String profileImageUrl,
@@ -79,6 +76,8 @@ public class User implements Serializable {
         this.email = email;
         this.profileImageUrl = profileImageUrl;
         this.bgImageUrl = bgImageUrl;
+        this.roles = Set.of("USER");
+        this.createdAt = Instant.now();
     }
 
     @Override
@@ -88,12 +87,15 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         User other = (User) obj;
         return Objects.equals(id, other.id);
     }

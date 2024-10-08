@@ -1,6 +1,5 @@
 package com.service.users.migow.migow_users_service.infra.db.repositories.implementations;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
+
     @Autowired
     private JpaUserRepository jpaUserRepository;
 

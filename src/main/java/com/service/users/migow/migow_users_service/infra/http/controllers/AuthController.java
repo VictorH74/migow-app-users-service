@@ -1,5 +1,8 @@
 package com.service.users.migow.migow_users_service.infra.http.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +30,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthController {
+
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final CreateUserUseCase createUserUseCase;
@@ -37,7 +41,7 @@ public class AuthController {
         SimpleUserDTO responseUser = createUserUseCase.execute(obj);
 
         obj.setId(responseUser.getId());
-        postServiceClient.createUserInPostService(obj);
+        postServiceClient.createUser(obj);
 
         return this.login(new UserCredentialsDTO(obj.getUsername(), obj.getPassword()));
     }
@@ -54,12 +58,16 @@ public class AuthController {
 
             User user = (User) authentication.getPrincipal();
 
-            if (authentication.isAuthenticated())
+            List<String> roles = new ArrayList<>(user.getRoles());
+
+            if (authentication.isAuthenticated()) {
                 return JwtResponseDTO.builder()
                         .accessToken(jwtService.GenerateToken(
                                 user.getId(),
-                                user.getEmail()))
+                                user.getEmail(),
+                                roles))
                         .build();
+            }
 
             throw new UsernameNotFoundException("invalid user request..!!");
 

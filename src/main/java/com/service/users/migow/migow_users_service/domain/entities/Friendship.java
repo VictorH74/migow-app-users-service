@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "db_friendship")
 public class Friendship {
+
     @EmbeddedId
     private FriendshipPK id;
     private Instant createdAt;
@@ -43,12 +44,15 @@ public class Friendship {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Friendship other = (Friendship) obj;
         return Objects.equals(id, other.id);
     }

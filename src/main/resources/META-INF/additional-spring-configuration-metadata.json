@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "kafka.topic.userCreated",
+      "type": "java.lang.String",
+      "description": "userCreated topic name"
+    }
+  ]
+}

@@ -3,10 +3,14 @@ package com.service.users.migow.migow_users_service.application.services;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -16,6 +20,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {
+
     public static final String SECRET = "357638792F423F4428472B4B6250655368566D597133743677397A2443264629";
 
     public UUID extractUserId(String token) {
@@ -32,9 +37,6 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        // return
-        // Jwts.parser().setSigningKey(getSignKey()).parseClaimsJws(token).getBody();
-        // vh
         return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
     }
 
@@ -42,18 +44,30 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
+    public List<GrantedAuthority> extractAuthorities(String token) {
+        Claims claims = extractAllClaims(token);
+
+        @SuppressWarnings("unchecked")
+        List<String> authorities = (List<String>) claims.get("authorities");
+
+        return authorities.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
     public Boolean validateToken(String token, UUID id) {
         final UUID userId = extractUserId(token);
         return (userId.equals(id) && !isTokenExpired(token));
     }
 
-    public String GenerateToken(UUID userId, String userEmail) {
+    public String GenerateToken(UUID userId, String userEmail, List<String> roles) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userId, userEmail);
+        claims.put("email", userEmail);
+        claims.put("authorities", roles);
+        return createToken(claims, userId);
     }
 
-    private String createToken(Map<String, Object> claims, UUID userId, String userEmail) {
-        claims.put("email", userEmail);
+    private String createToken(Map<String, Object> claims, UUID userId) {
 
         return Jwts.builder()
                 .setClaims(claims)
